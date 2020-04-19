@@ -1,4 +1,4 @@
-@import url("fontawesome-all.min.css");
+@import url("{{ url_for('static', filename='css/fontawesome-all.min.css') }}");
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300italic,400,600");
 
 html, body, div, span, applet, object,
@@ -1944,10 +1944,10 @@ input, select, textarea {
 		background-color: #8ebebc;
 		border: 0;
 		cursor: pointer;
-		background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15)), url("images/overlay.png");
-		background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15)), url("images/overlay.png");
-		background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15)), url("images/overlay.png");
-		background-image: linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15)), url("images/overlay.png");
+		background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15)), url("{{url_for('static', filename='images/overlay.png')}}");
+		background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15)), url("{{url_for('static', filename='images/overlay.png')}}");
+		background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15)), url("{{url_for('static', filename='images/overlay.png')}}");
+		background-image: linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15)), url("{{url_for('static', filename='images/overlay.png')}}");
 		-moz-transition: background-color 0.35s ease-in-out;
 		-webkit-transition: background-color 0.35s ease-in-out;
 		-ms-transition: background-color 0.35s ease-in-out;
@@ -2039,7 +2039,7 @@ input, select, textarea {
 		-webkit-justify-content: space-between;
 		-ms-justify-content: space-between;
 		justify-content: space-between;
-		background: #222629 url("images/overlay.png");
+		background: #222629 url("{{url_for('static', filename='images/overlay.png')}}");
 		box-shadow: inset -0.25em 0 0.25em 0 rgba(0, 0, 0, 0.1);
 		color: #fff;
 		height: 100%;
@@ -2207,7 +2207,7 @@ input, select, textarea {
 			padding: 4em 0;
 			box-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.05), inset 0 0.1em 0.1em 0 rgba(0, 0, 0, 0.025);
 			text-align: center;
-			background-image: url("images/overlay.png");
+			background-image: url("{{url_for('static', filename='images/overlay.png')}}");
 		}
 
 			#main > section.dark {
@@ -2241,7 +2241,7 @@ input, select, textarea {
 
 			#main > section.one {
 				background-color: #81918E;
-				background-image: url("images/banner.jpg");
+				background-image: url("{{url_for('static', filename='images/banner.jpg')}}");
 			}
 
 			#main > section.two {
@@ -2254,6 +2254,10 @@ input, select, textarea {
 
 			#main > section.four {
 				background-color: #e8edec;
+			}
+			
+			#main > section.five {
+				background-color: #81918E;
 			}
 
 /* Wide */
