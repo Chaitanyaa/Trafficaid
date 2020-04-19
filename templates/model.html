@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Traffic</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main1.css') }}">
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+</head>
+<body class="is-preload">
+<!-- Header -->
+<div id="header">
+
+    <div class="top">
+
+        <!-- Logo -->
+        <div id="logo">
+            <span class="image avatar48"><img src="{{url_for('static', filename='images/trafficaid.png')}}" alt="" /></span>
+            <h1 id="title">Traffic Aid</h1>
+            <p>for planners and commuters</p>
+        </div>
+<br/>
+        <br/>
+        <br/>
+        <!-- Nav -->
+        <nav id="nav">
+            <ul>
+                <li>
+                    <div style="margin-right:128px">
+                        <br/><br/>
+                        <form action="/action_page.php">
+                            <div class="form-group" style="margin-left:20px">
+                                <input type="text" class="form-control" id="station" aria-describedby="station" placeholder="stationid" value="400001"><br/>
+                            </div>
+                            <div class="form-group" style="margin-left:20px">
+                                <select name="fwy" class="form-control" id="fwy">
+                                    <option value="" disabled selected>Select a Model</option>
+                                    <option>LSTM</option>
+                                    <option>Ensemble</option>
+                                    <option>RandomForest</option>
+                                </select>
+                            </div>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+
+
+        <!--Refresh-->
+        <script>
+            $("#Refresh").click(function() {
+                $("#div").load(location.href + "#div > *","");
+            });
+        </script>
+        <br/>
+        <div id="div" style="margin-right:40px">
+            <button id="submit">Submit</button>
+        </div>
+        </form>
+
+    </div>
+
+    <div class="bottom">
+    </div>
+</div>
+<!-- Main -->
+<div id="main">
+    <nav id="nav3" class="nav1">
+        <ul>
+            <li><a href="/" >Home</a></li>
+            <li><a href="/about">Project Synopsys</a></li>
+            <li><a href="/data">Raw Data Analysis</a></li>
+            <li><a href="/model" class="active">Model Evaluation</a></li>
+            <li><a href="/prediction">Traffic Prediction</a></li>
+        </ul>
+    </nav>
+
+    <!-- Model -->
+    <section id="model" class="two">
+        <div class="container">
+
+            <header>
+                <h2>Model Performance</h2>
+            </header>
+            <div class="row">
+                <div class="col-4 col-12-mobile">
+                    <article class="item">
+                        <a href="#" class="image fit"><img style="height:300px; width:440px;" src="{{ url_for('static', filename='images/Graph1.png') }}" alt="" /></a>
+                        <header>
+                            <h3>Actual versus Predicted Speed graphs for three different Models</h3>
+                        </header>
+                    </article>
+                </div>
+                <div class="col-4 col-12-mobile">
+                    <article class="item">
+                        <a href="#" class="image fit"><img style="height:300px; width:440px;" src="{{ url_for('static', filename='images/Graph3.png') }}" alt="" /></a>
+                        <header>
+                            <h3 style="width:450px;">Metrics compared for various models</h3>
+                        </header>
+                    </article>
+                </div>
+                <div class="col-4 col-12-mobile">
+                    <article class="item">
+                        <a href="#" class="image fit"><img style="height:300px; width:440px;" src="{{url_for('static', filename='images/Graph4.png')}}" alt="" /></a>
+                        <header>
+                            <h3>Confusion Matrix</h3>
+                        </header>
+                    </article>
+                </div>
+            </div>
+<br/>
+            <div class="row">
+                <div class="col-4 col-12-mobile">
+                    <article class="item">
+                        <a href="#" class="image fit"><img style="height:300px; width:440px;" src="{{url_for('static', filename='images/Graph5.png')}}" alt="" /></a>
+                        <header>
+                            <h3>Classification model performances</h3>
+                        </header>
+                    </article>
+                </div>
+                <div class="col-4 col-12-mobile">
+                    <article class="item">
+                        <a href="#" class="image fit"><img style="height:300px; width:440px;" src="{{url_for('static', filename='images/Graph6.png')}}" alt="" /></a>
+                        <header>
+                            <h3>RMSE and MSE Score comparisons of models</h3>
+                        </header>
+                    </article>
+                </div>
+                <div class="col-4 col-12-mobile">
+                    <article class="item">
+                        <a href="#" class="image fit"><img style="height:300px; width:440px;" src="{{url_for('static', filename='images/Graph7.png')}}" alt="" /></a>
+                        <header>
+                            <h3>Loss curves for LSTM</h3>
+                        </header>
+                    </article>
+                </div>
+            </div>
+
+        </div>
+    </section>
+</div>
+
+<!-- Footer -->
+<div id="footer">
+
+</div>
+
+<!--Scripts-->
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.scrolly.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.scrollex.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/browser.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/breakpoints.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/util.js') }}"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+</html>
