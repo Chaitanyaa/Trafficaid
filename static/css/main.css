@@ -1,9 +1,15 @@
-@import url("fontawesome-all.min.css");
+@import url("{{ url_for('static', filename='css/fontawesome-all.min.css') }}");
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,300italic,400,600");
+
+/*
+	Prologue by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+*/
 
 html, body, div, span, applet, object,
 iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
-pre, abbr, acronym, address, big, cite,
+pre, a, abbr, acronym, address, big, cite,
 code, del, dfn, em, img, ins, kbd, q, s, samp,
 small, strike, strong, sub, sup, tt, var, b,
 u, i, center, dl, dt, dd, ol, ul, li, fieldset,
@@ -1941,13 +1947,13 @@ input, select, textarea {
 		color: #fff !important;
 		text-decoration: none;
 		padding: 0.75em 2.5em 0.75em 2.5em;
-		background-color: #E13A44;
+		background-color: #8ebebc;
 		border: 0;
 		cursor: pointer;
-		background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15)), url("images/overlay.png");
-		background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15)), url("images/overlay.png");
-		background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15)), url("images/overlay.png");
-		background-image: linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15)), url("images/overlay.png");
+		background-image: -moz-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15)), url("{{ url_for('static', filename='images/overlay.png') }}");
+		background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15)), url("{{ url_for('static', filename='images/overlay.png') }}");
+		background-image: -ms-linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15)), url("{{ url_for('static', filename='images/overlay.png') }}");
+		background-image: linear-gradient(top, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.15)), url("{{ url_for('static', filename='images/overlay.png') }}");
 		-moz-transition: background-color 0.35s ease-in-out;
 		-webkit-transition: background-color 0.35s ease-in-out;
 		-ms-transition: background-color 0.35s ease-in-out;
@@ -2039,7 +2045,7 @@ input, select, textarea {
 		-webkit-justify-content: space-between;
 		-ms-justify-content: space-between;
 		justify-content: space-between;
-		background: #222629 url("images/overlay.png");
+		background: #222629 url("{{ url_for('static', filename='images/overlay.png') }}");
 		box-shadow: inset -0.25em 0 0.25em 0 rgba(0, 0, 0, 0.1);
 		color: #fff;
 		height: 100%;
@@ -2164,147 +2170,7 @@ input, select, textarea {
 					#nav ul li a.active span:before {
 						color: #e27689;
 					}
-/*New Nav class for tabs*/
-.nav1 {
-	-moz-transition: background-color 0.2s ease, border-top-left-radius 0.2s ease, border-top-right-radius 0.2s ease, padding 0.2s ease;
-	-webkit-transition: background-color 0.2s ease, border-top-left-radius 0.2s ease, border-top-right-radius 0.2s ease, padding 0.2s ease;
-	-ms-transition: background-color 0.2s ease, border-top-left-radius 0.2s ease, border-top-right-radius 0.2s ease, padding 0.2s ease;
-	transition: background-color 0.2s ease, border-top-left-radius 0.2s ease, border-top-right-radius 0.2s ease, padding 0.2s ease;
-	background-color: #222629 ;
-	color: #636363;
-	position: absolute;
-	width: 60em;
-	max-width: calc(100% - 10em);
-	padding: 1em;
-	background-color: #222629 ;
-	border-top-left-radius: 0.25em;
-	border-top-right-radius: 0.25em;
-	cursor: default;
-	text-align: center;
-}
 
-.nav1 input, .nav1 select, .nav1 textarea {
-	color: #B21550;
-}
-
-.nav1 a:hover {
-	color: #BD6385;
-}
-
-.nav1 strong, .nav1 b {
-	color: #BD6385;
-}
-
-.nav1 h1, .nav1 h2, .nav1 h3, .nav1 h4, .nav1 h5, .nav1 h6 {
-	color: #BD6385;
-}
-
-.nav1 blockquote {
-	border-left-color: #dddddd;
-}
-
-.nav1 code {
-	background: rgba(222, 222, 222, 0.25);
-	border-color: #dddddd;
-}
-
-.nav1 hr {
-	border-bottom-color: #dddddd;
-}
-
-.nav1 + #main {
-	padding-top: 4.25em;
-}
-
-.nav1 ul {
-	margin: 0;
-	padding: 0;
-	list-style: none;
-}
-
-.nav1 ul li {
-	-moz-transition: margin 0.2s ease;
-	-webkit-transition: margin 0.2s ease;
-	-ms-transition: margin 0.2s ease;
-	transition: margin 0.2s ease;
-	display: inline-block;
-	margin: 0 0.35em;
-	padding: 0;
-	vertical-align: middle;
-}
-
-.nav1 ul li a {
-	-moz-transition: font-size 0.2s ease;
-	-webkit-transition: font-size 0.2s ease;
-	-ms-transition: font-size 0.2s ease;
-	transition: font-size 0.2s ease;
-	display: inline-block;
-	height: 2.25em;
-	line-height: 2.25em;
-	font-color:#ffffff !important;
-	padding: 0 1.25em;
-	border: 0;
-	border-radius: 8px;
-	box-shadow: inset 0 0 0 1px transparent;
-}
-
-.nav1 ul li a:hover {
-	background-color: #E0676E;
-}
-
-.nav1 ul li a.active {
-	background-color: #E13A44;
-	box-shadow: none;
-}
-
-.nav1.alt {
-	position: fixed;
-	top: 0;
-	padding: 0.5em 1em;
-	background-color: rgba(247, 247, 247, 0.95);
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
-	z-index: 10000;
-}
-
-.nav1.alt ul li {
-	margin: 0 0.175em;
-}
-
-.nav1.alt ul li a {
-	font-size: 0.9em;
-}
-
-@media screen and (max-width: 736px) {
-
-	.nav1 {
-		display: none;
-	}
-
-	.nav1 + #main {
-		padding-top: 0;
-	}
-
-}
-/* Prediction tab */
-.pred ul
-{
-	height:20px;
-	align-content: center;
-	margin-left: 400px;
-	display:flex;
-	list-style:none;
-	-moz-transition: font-size 0.2s ease;
-	-webkit-transition: font-size 0.2s ease;
-	-ms-transition: font-size 0.2s ease;
-	transition: font-size 0.2s ease;
-	height: 2.25em;
-	line-height: 2.25em;
-	padding: 0 1.25em;
-	border: 0;
-	border-radius: 8px;
-	box-shadow: inset 0 0 0 1px transparent;
-}
 /* Footer */
 
 	#footer {
@@ -2347,7 +2213,7 @@ input, select, textarea {
 			padding: 4em 0;
 			box-shadow: inset 0 1px 0 0 rgba(0, 0, 0, 0.05), inset 0 0.1em 0.1em 0 rgba(0, 0, 0, 0.025);
 			text-align: center;
-			background-image: url("images/overlay.png");
+			background-image: url("{{ url_for('static', filename='images/overlay.png') }}");
 		}
 
 			#main > section.dark {
@@ -2381,7 +2247,7 @@ input, select, textarea {
 
 			#main > section.one {
 				background-color: #81918E;
-				background-image: url("images/banner.jpg");
+				background-image: url("{{ url_for('static', filename='images/banner.jpg') }}");
 			}
 
 			#main > section.two {
@@ -2394,6 +2260,10 @@ input, select, textarea {
 
 			#main > section.four {
 				background-color: #e8edec;
+			}
+			
+			#main > section.five {
+				background-color: #81918E;
 			}
 
 /* Wide */
