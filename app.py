@@ -127,7 +127,7 @@ def getFoliumMap(stationid="",Fwy="",startdate = '2018-01-01 05:00:00'):
         selected_date = selected_date_df.set_index(['station'])
         selected_date_df = selected_date.groupby(selected_date.index).agg({'speed':'mean','incident':'sum','occupancy':'mean','hourlyprecipitation':'mean','hourlywindspeed':'mean','hourlyvisibility':'mean'})
         selected_date_df = selected_date_df.reset_index()
-    df_traffic_metadata = pd.read_csv("C:/Sindu_SJSU/Sem04/trafficaid-master/station_meta_finalv2.csv", sep=',', header=0)
+    df_traffic_metadata = pd.read_csv("station_meta_finalv2.csv", sep=',', header=0)
     selected_date_withmeta_df = selected_date_df.merge(df_traffic_metadata,left_on="station",right_on="ID",how="left").round(3)
     selected_date_withmeta_df.head()
 
