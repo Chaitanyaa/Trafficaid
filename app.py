@@ -96,12 +96,12 @@ def getFoliumMap(stationid="",Fwy="",startdate = '2018-01-01 05:00:00'):
     #Note: All blanks take empty strings
 
 
-    #s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY,aws_secret_access_key=AWS_SECRET_KEY)
-    #traffic_weather_incident = io.BytesIO(s3.get_object(Bucket='pemstwi', Key='2015_2019/twi')['Body'].read())
-    twi_df = pd.read_csv('C:/Sindu_SJSU/Sem04/trafficaid-master/twi_df_500.csv')
+    s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY,aws_secret_access_key=AWS_SECRET_KEY)
+    traffic_weather_incident = io.BytesIO(s3.get_object(Bucket='pemstwi', Key='2015_2019/twi')['Body'].read())
+    # twi_df = pd.read_csv('C:/Sindu_SJSU/Sem04/trafficaid-master/twi_df_500.csv')
 
     if(enddate!=""):
-        #twi_df=twi_df[(twi_df['timestamp_']>=np.datetime64(start_obj))&(twi_df['timestamp_']<=np.datetime64(end_obj))]
+        twi_df=twi_df[(twi_df['timestamp_']>=np.datetime64(start_obj))&(twi_df['timestamp_']<=np.datetime64(end_obj))]
         if((Fwy!="") and (stationid!="")):
             selected_date_df = twi_df[(twi_df['freeway']==Fwy)&(twi_df['station']==stationid)]
         elif(Fwy!=""):
@@ -133,7 +133,7 @@ def getFoliumMap(stationid="",Fwy="",startdate = '2018-01-01 05:00:00'):
 
 
     #101
-    gpx_file101 = open('C:/Sindu_SJSU/Sem04/trafficaid-master/101.gpx', 'r')
+    gpx_file101 = open('101.gpx', 'r')
     gpx101 = gpxpy.parse(gpx_file101)
     points101 = []
     for track in gpx101.tracks:
@@ -142,7 +142,7 @@ def getFoliumMap(stationid="",Fwy="",startdate = '2018-01-01 05:00:00'):
                 points101.append(tuple([point.latitude, point.longitude]))
 
     #280
-    gpx_file280 = open('C:/Sindu_SJSU/Sem04/trafficaid-master/280.gpx', 'r')
+    gpx_file280 = open('280.gpx', 'r')
     gpx280 = gpxpy.parse(gpx_file280)
     points280 = []
     for track in gpx280.tracks:
@@ -152,7 +152,7 @@ def getFoliumMap(stationid="",Fwy="",startdate = '2018-01-01 05:00:00'):
 
 
     #680
-    gpx_file680 = open('C:/Sindu_SJSU/Sem04/trafficaid-master/680.gpx', 'r')
+    gpx_file680 = open('680.gpx', 'r')
     gpx680 = gpxpy.parse(gpx_file680)
     points680 = []
     for track in gpx680.tracks:
@@ -162,7 +162,7 @@ def getFoliumMap(stationid="",Fwy="",startdate = '2018-01-01 05:00:00'):
 
 
     #880
-    gpx_file880 = open('C:/Sindu_SJSU/Sem04/trafficaid-master/880.gpx', 'r')
+    gpx_file880 = open('880.gpx', 'r')
     gpx880 = gpxpy.parse(gpx_file880)
     points880 = []
     for track in gpx880.tracks:
@@ -284,7 +284,7 @@ def getFoliumMapPred():
 
     df_X, df_y = final.values[:,2:-1], df.values[:,-1]
     # Determine filename based on freeway and station
-    filename = "C:/Sindu_SJSU/Sem04/trafficaid-master/ensemble_model_400001.sav"
+    filename = "ensemble_model_400001.sav"
     loaded_model = joblib.load(filename)
     result = loaded_model.predict(df_X)
     final['p_speed']=result
@@ -295,7 +295,7 @@ def getFoliumMapPred():
     print(result)
 
     #101
-    gpx_file101 = open('C:/Sindu_SJSU/Sem04/trafficaid-master/101.gpx', 'r')
+    gpx_file101 = open('101.gpx', 'r')
     gpx101 = gpxpy.parse(gpx_file101)
     points101 = []
     for track in gpx101.tracks:
@@ -304,7 +304,7 @@ def getFoliumMapPred():
                 points101.append(tuple([point.latitude, point.longitude]))
 
     #280
-    gpx_file280 = open('C:/Sindu_SJSU/Sem04/trafficaid-master/280.gpx', 'r')
+    gpx_file280 = open('280.gpx', 'r')
     gpx280 = gpxpy.parse(gpx_file280)
     points280 = []
     for track in gpx280.tracks:
@@ -313,7 +313,7 @@ def getFoliumMapPred():
                 points280.append(tuple([point.latitude, point.longitude]))
 
     #680
-    gpx_file680 = open('C:/Sindu_SJSU/Sem04/trafficaid-master/680.gpx', 'r')
+    gpx_file680 = open('680.gpx', 'r')
     gpx680 = gpxpy.parse(gpx_file680)
     points680 = []
     for track in gpx680.tracks:
@@ -323,7 +323,7 @@ def getFoliumMapPred():
 
 
     #880
-    gpx_file880 = open('C:/Sindu_SJSU/Sem04/trafficaid-master/880.gpx', 'r')
+    gpx_file880 = open('880.gpx', 'r')
     gpx880 = gpxpy.parse(gpx_file880)
     points880 = []
     for track in gpx880.tracks:
@@ -412,7 +412,7 @@ def getFoliumMapPred():
     return my_map._repr_html_
 
 if __name__ == '__main__':
-	app.run(debug=True, port=5000)
+	app.run(debug=True, port=10050)
 
 
 
