@@ -5,69 +5,22 @@
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="{{url_for('static', filename='css/main.css') }}">
-
+		<link rel="stylesheet" href="{{url_for('static', filename='css/main1.css') }}">
+		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+		<!--<link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css') }}">-->
 	</head>
 	<body class="is-preload">
-		<!-- Header -->
-			<div id="header">
-
-				<div class="top">
-
-					<!-- Logo -->
-						<div id="logo">
-							<span class="image avatar48"><img src="{{url_for('static', filename='images/trafficaid.png')}}" alt="" /></span>
-							<h1 id="title">Traffic Aid</h1>
-							<p>for planners and commuters</p>
-						</div>
-
-					<!-- Nav -->
-						<nav id="nav">
-							<ul>
-								<li><a href="#home" id="home-link"><span class="icon solid fa-home">Home</span></a></li>
-								<li><a href="#about"><span class="icon solid fa-info-circle">About</span></a></li>
-								<li><a href="#model" id="model-link"><span class="icon solid fa-th">Model Stats</span></a></li>
-								<li><a href="#planner" id="planner-link"><span class="icon solid fa-user-friends">Traffic Planner</span></a></li>
-								<li><a href="#commuter" id="commuter-link"><span class="icon solid fa-user">Traffic Commuter</span></a></li>
-								<li>
-									<div style="margin-right:128px">
-										<br/><br/><br/><br/><br/><br/><br/><br/><br/>
-										<form action="/action_page.php">
-										<div class="form-group" style="margin-left:20px">
-										  <input type="text" class="form-control" id="station" aria-describedby="station" placeholder="stationid" value="400001"><br/>
-										</div>
-										<h4 style="margin-right:70px"><span class="icon solid fa-circle" style="color:#267326;"></span>&nbsp Real-Time</h4>
-										<a style="font-size: 15px;margin-top:-10px">Timestamp:</a>
-										<a style="font-size: 15px;margin-top:-20px">Speed:</a>
-										<a style="font-size: 15px;margin-top:-20px">Occupancy:</a>
-										<a style="font-size: 15px;margin-top:-20px">Precipitation:</a>
-										<a style="font-size: 15px;margin-top:-20px">Visibility:</a>
-										<a style="font-size: 15px;margin-top:-20px">Wind speed:</a>
-										<a style="font-size: 15px;margin-top:-20px">Incident:</a>	
-									</div>
-								</li>
-							</ul>
-						</nav>
-				
-				
-				<!--Refresh-->
-				<script>
-				$("#Refresh").click(function() {
-					$("#div").load(location.href + "#div > *","");
-				  });
-				</script>
-				<div id="div" style="margin-right:40px">
-				<button id="Referesh">Refresh</button>
-				</div>
-				</form>
-				
-				</div>
-				
-				<div class="bottom">
-				</div>	
-			</div>
 		<!-- Main -->
-			<div id="main">
-
+			<div id="main" style="margin-left: 0px;">
+				<nav id="nav3" style="width: 3000px;max-width: calc(100% - 0em);" class="nav1">
+					<ul>
+						<li><a href="#home" class="active" style="color:#ffffff">Home</a></li>
+						<li><a href="/about" style="color:#ffffff">Project Synopsys</a></li>
+						<li><a href="/data" style="color:#ffffff">Raw Data Analysis</a></li>
+						<li><a href="/model" style="color:#ffffff">Model Evaluation</a></li>
+						<li><a href="/prediction" style="color:#ffffff">Traffic Prediction</a></li>
+					</ul>
+				</nav>
 				<!-- Home -->
 					<section id="home" class="one dark cover">
 						<div class="container">
@@ -78,122 +31,11 @@
 							</header>
 
 							<footer>
-							<br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+							<br/><br/><br/><br/><br/><br/><br/><br/>
 							</footer>
 
 						</div>
 					</section>
-					
-				<!-- About -->
-					<section id="about" class="five">
-						<header>
-								<h2>Project Synopsys</h2>
-						</header>
-					</section>
-
-				<!-- Model -->
-					<section id="model" class="two">
-						<div class="container">
-
-							<header>
-								<h2>Model Performance</h2>
-							</header>
-							<div class="row">
-								<div class="col-4 col-12-mobile">
-									<article class="item">
-										<a href="#" class="image fit"><img src="{{ url_for('static', filename='images/pic02.jpg') }}" alt="" /></a>
-										<header>
-											<h3>Graph1</h3>
-										</header>
-									</article>
-								</div>
-								<div class="col-4 col-12-mobile">
-									<article class="item">
-										<a href="#" class="image fit"><img src="{{ url_for('static', filename='images/pic02.jpg') }}" alt="" /></a>
-										<header>
-											<h3>Graph2</h3>
-										</header>
-									</article>
-								</div>
-								<div class="col-4 col-12-mobile">
-									<article class="item">
-										<a href="#" class="image fit"><img src="{{url_for('static', filename='images/pic02.jpg')}}" alt="" /></a>
-										<header>
-											<h3>Graph3</h3>
-										</header>
-									</article>
-								</div>
-							</div>
-							
-							<div class="row">
-								<div class="col-4 col-12-mobile">
-									<article class="item">
-										<a href="#" class="image fit"><img src="{{url_for('static', filename='images/pic02.jpg')}}" alt="" /></a>
-										<header>
-											<h3>Graph1</h3>
-										</header>
-									</article>
-								</div>
-								<div class="col-4 col-12-mobile">
-									<article class="item">
-										<a href="#" class="image fit"><img src="{{url_for('static', filename='images/pic02.jpg')}}" alt="" /></a>
-										<header>
-											<h3>Graph2</h3>
-										</header>
-									</article>
-								</div>
-								<div class="col-4 col-12-mobile">
-									<article class="item">
-										<a href="#" class="image fit"><img src="{{url_for('static', filename='images/pic02.jpg')}}" alt="" /></a>
-										<header>
-											<h3>Graph3</h3>
-										</header>
-									</article>
-								</div>
-							</div>
-
-						</div>
-					</section>
-
-				<!-- Traffic Planners -->
-					<section id="planner" class="three">
-						<div class="container">
-						<h2>
-							Dashboard
-						</h2>
-						</div>
-					</section>
-
-				<!-- Live Traffic -->
-					<section id="commuter" class="four">
-						<header>
-								<h2>Real-Time Traffic Prediction</h2>
-						</header>
-						<div class="container">
-						<form action="/action_page.php">
-						<table>
-							<tr><td><div class="form-group" style="margin-left:20px">
-							  <select class="form-control" id="fwy">
-								<option value="" disabled selected>Select a Freeway</option>
-								<option>U.S 101</option>
-								<option>I680</option>
-								<option>I280</option>
-								<option>I880</option>
-							  </select>
-							</div></td><td>
-						  <input type="text" class="form-control" id="Point A" aria-describedby="Point A" placeholder="Point A"><br/></td>
-						  <td><input type="text" class="form-control" id="Point B" aria-describedby="Point B" placeholder="Point B"><br/></td>
-						<td><button type="submit" class="btn btn-primary">Predict</button></td>
-						</table>
-						</form>
-						<div align="right">
-						  <strong style="font-size: 35px;font-weight:900px"><span class="icon solid fa-clock">  Travel Time:XXX</span></strong>
-						</div>
-						<iframe src="{{url_for('static', filename='Map.html')}}" style="height:800px;width:1400px;"></iframe>
-						</div>
-						
-					</section>
-
 			</div>
 
 		<!-- Footer -->
@@ -201,7 +43,7 @@
 
 			</div>
 
-		<!-- Scripts-->
+		<!--Scripts-->
 			<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
 			<script src="{{ url_for('static', filename='js/jquery.scrolly.min.js') }}"></script>
 			<script src="{{ url_for('static', filename='js/jquery.scrollex.min.js') }}"></script>
@@ -209,6 +51,5 @@
 			<script src="{{ url_for('static', filename='js/breakpoints.min.js') }}"></script>
 			<script src="{{ url_for('static', filename='js/util.js') }}"></script>
 			<script src="{{ url_for('static', filename='js/main.js') }}"></script>
-
 	</body>
 </html>

@@ -22,7 +22,6 @@
 
 	// Nav.
 		var $nav_a = $nav.find('a');
-
 		$nav_a
 			.addClass('scrolly')
 			.on('click', function(e) {

@@ -1,0 +1,102 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Traffic</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main1.css') }}">
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+</head>
+<body class="is-preload">
+<!-- Header -->
+<div id="header">
+
+    <div class="top">
+
+        <!-- Logo -->
+        <div id="logo">
+            <span class="image avatar48"><img src="{{url_for('static', filename='images/trafficaid.png')}}" alt="" /></span>
+            <h1 id="title">Traffic Aid</h1>
+            <p>for planners and commuters</p>
+        </div>
+
+        <!-- Nav -->
+        <nav id="nav">
+            <ul>
+                <li>
+                    <div style="margin-right:128px">
+                        <br/><br/><br/><br/>
+                        <form action="/data" method="post">
+                            <div class="form-group" style="margin-left:20px">
+                                <input type="text" class="form-control" id="station" name="station" aria-describedby="station" placeholder="stationid" value=""><br/>
+                            </div>
+                            <div class="form-group" style="margin-left:20px">
+                                <select name="fwy" class="form-control" id="fwy">
+                                    <option value="" disabled selected>Select a Freeway</option>
+                                    <option>101</option>
+                                    <option>680</option>
+                                    <option>280</option>
+                                    <option>880</option>
+                                </select>
+                            </div>
+                            <br/>
+                            <div class="form-group" style="margin-left:20px">
+                                <input class="form-control" name="filterDate" type="date" id="filterDate" name="filterDate">
+                            </div>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+<br/>
+        <div id="div" style="margin-right:40px">
+            <button id="submit">Submit</button>
+        </div>
+        </form>
+
+    </div>
+
+    <div class="bottom">
+    </div>
+</div>
+<!-- Main -->
+<div id="main">
+    <nav id="nav3" class="nav1">
+        <ul>
+            <li><a href="/" style="color:#ffffff">Home</a></li>
+            <li><a href="/about" style="color:#ffffff">Project Synopsys</a></li>
+            <li><a href="/data" class="active" style="color:#ffffff">Raw Data Analysis</a></li>
+            <li><a href="/model" style="color:#ffffff">Model Evaluation</a></li>
+            <li><a href="/prediction" style="color:#ffffff">Traffic Prediction</a></li>
+        </ul>
+    </nav>
+
+    <!-- Raw Data Analysis -->
+    <section id="dataAnalysis" class="three">
+        <div class="container">
+            <h2>
+                <br/>
+                Dashboard
+            </h2>
+            <iframe src="/getFoliumMap" height="900" width="900"></iframe>
+        </div>
+    </section>
+
+</div>
+
+<!-- Footer -->
+<div id="footer">
+
+</div>
+
+<!--Scripts-->
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.scrolly.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.scrollex.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/browser.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/breakpoints.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/util.js') }}"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+</html>
