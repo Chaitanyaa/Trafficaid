@@ -62,7 +62,6 @@ def data():
 @app.route('/model', methods = ['GET'])
 def model():
     return render_template('model.html')
-
 # Route to prediction page
 @app.route('/prediction', methods = ['GET'])
 def prediction():
