@@ -31,10 +31,10 @@
                         <div class="form-group" style="margin-left:20px">
                                     <select class="form-control" name="fwy" id="fwy">
                                         <option value="" disabled selected>Select a Freeway</option>
-                                        <option>U.S 101</option>
-                                        <option>I680</option>
-                                        <option>I280</option>
-                                        <option>I880</option>
+                                        <option value="101">U.S 101</option>
+                                        <option value="680">I680</option>
+                                        <option value="280">I280</option>
+                                        <option value="880">I880</option>
                                     </select><br/>
                                 </div>
                                     <input type="text" class="form-control" name="pointa" id="Point A" aria-describedby="Point A" placeholder="Point A"><br/>
@@ -94,8 +94,8 @@
             <!--<div align="right">
                 <strong style="font-size: 35px;font-weight:900px"><span class="icon solid fa-clock">  Travel Time:XXX</span></strong>
             </div>-->
-            <iframe src="{{url_for('static', filename='Map.html')}}" style="height:500px;width:900px;"></iframe>
-            <!--<iframe src="/getFoliumMapPred" height="900" width="900"></iframe>-->
+            <!--<iframe src="{{url_for('static', filename='Map.html')}}" style="height:500px;width:900px;"></iframe>-->
+            <iframe src="/getFoliumMapPred" height="900" width="900"></iframe>
         </div>
 
     </section>
