@@ -12,7 +12,6 @@ import os
 import datetime as dt
 import numpy as np
 import boto3
-import config
 
 def get_folium_map(stationid,Fwy,startdate):
     startdate = '2018-01-01 05:00:00' # Choose Date and time (Required) calendar
@@ -27,9 +26,9 @@ def get_folium_map(stationid,Fwy,startdate):
     stationid = "" #Can be blank (Optional) textbox
 
     #Note: All blanks take empty strings
-
-
-    s3 = boto3.client('s3', aws_access_key_id=config.AWS_ACCESS_KEY,aws_secret_access_key=config.AWS_SECRET_KEY)
+    AWS_ACCESS_KEY = "AKIA4JL5A5WR3V5RODMP"
+    AWS_SECRET_KEY = "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"
+    s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY,aws_secret_access_key=AWS_SECRET_KEY)
     traffic_weather_incident = io.BytesIO(s3.get_object(Bucket='pemstwi', Key='2015_2019/twi')['Body'].read())
     # twi_df = pd.read_csv('C:/Sindu_SJSU/Sem04/trafficaid-master/twi_df_500.csv')
     twi_df = pd.read_parquet(traffic_weather_incident)
