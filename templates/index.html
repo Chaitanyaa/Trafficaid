@@ -6,12 +6,71 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="{{url_for('static', filename='css/main.css') }}">
 		<link rel="stylesheet" href="{{url_for('static', filename='css/main1.css') }}">
+		<link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css') }}">
 		<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 		<!--<link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css') }}">-->
 	</head>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+	* {
+	box-sizing: border-box;
+	}
+
+	body {
+	margin: 0;
+	font-family: Arial;
+	font-size: 17px;
+	}
+
+	#myVideo {
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	min-width: 100%; 
+	min-height: 100%;
+	}
+
+	.content {
+	position: fixed;
+	bottom: 0;
+	background: rgba(0, 0, 0, 0.3);
+	color: #f1f1f1;
+	width: 100%;
+	padding: 20px;
+	}
+
+	#myBtn {
+	width: 200px;
+	font-size: 18px;
+	padding: 10px;
+	border: none;
+	background: #000;
+	color: #fff;
+	cursor: pointer;
+	}
+
+	#myBtn:hover {
+	background: #ddd;
+	color: black;
+	}
+
+	div.horizontalgap {
+	float: left;
+	overflow: hidden;
+	height: 1px;
+	width: 0px;
+	}
+	</style>
+	<video autoplay muted loop id="myVideo">
+		<source src="{{url_for('static', filename='images/Drone.mp4')}}" type="video/mp4">
+	</video>
+	<div class="horizontalgap" style="width:420px"></div>
+	<img src="{{url_for('static', filename='images/circlep.png')}}" width="40%" style="position:fixed;top:75px" />
+	</div>
 	<body class="is-preload">
+		
 		<!-- Main -->
-			<div id="main" style="margin-left: 0px;">
+			<!--<div id="main" style="margin-left: 0px;">
 				<nav id="nav3" style="width: 3000px;max-width: calc(100% - 0em);" class="nav1">
 					<ul>
 						<li><a href="#home" class="active" style="color:#ffffff">Home</a></li>
@@ -20,9 +79,9 @@
 						<li><a href="/model" style="color:#ffffff">Model Evaluation</a></li>
 						<li><a href="/prediction" style="color:#ffffff">Traffic Prediction</a></li>
 					</ul>
-				</nav>
+				</nav>-->
 				<!-- Home -->
-					<section id="home" class="one dark cover">
+					<!--<section id="home" class="one dark cover">
 						<div class="container">
 
 							<header style="font-family: Arial Bold; font-size: 35px;">
@@ -36,11 +95,33 @@
 
 						</div>
 					</section>
+			</div>-->
+			<div class="content" style="width: 30%">
+				<br> <h1 style="font-family:Monotype Corsiva;">Team:</h1>
+				<p style="font-family:Monotype Corsiva; font-size:larger;"> 
+							 --Chaithanya Bogadi
+							<br> --Raja Shree
+							<br> --Sindu Ravichandran
+							<br> --Sindhu Korlapati
+							<br> --Sai Chaitanya
+				</p>
 			</div>
-
+			<div class="content" style="width: 30%; margin-left: 1000px;margin-bottom: 400px;">
+				<h1 style="font-family:Monotype Corsiva;">Project Mentors:</h1>
+				<p style="font-family:Monotype Corsiva; font-size:larger;"> 
+							 --Professor Ron Mak
+							<br> --Professor Jerry Gao
+							<br>
+				</p><h1 style="font-family:Monotype Corsiva;">Project Advisor:</h1>
+				<p style="font-family:Monotype Corsiva;font-size:larger;">
+							 --Professor Lee Chang
+				</p>
+			</div>
+			<a href="/prediction"><button type="button" class="btn btn-outline-danger" style="margin-top:50px;margin-left:150px;top: 100px;"><span class="icon solid fa-user"></span>&nbsp Commuter</button></a>
+			<br><a href="/data"><button type="button" class="btn btn-outline-success" style="margin-top:150px;top: 100px;margin-left:700px"><span class="icon solid fa-users"></span>&nbsp Planner</button></a>
 		<!-- Footer -->
 			<div id="footer">
-
+				
 			</div>
 
 		<!--Scripts-->
@@ -52,4 +133,5 @@
 			<script src="{{ url_for('static', filename='js/util.js') }}"></script>
 			<script src="{{ url_for('static', filename='js/main.js') }}"></script>
 	</body>
+	
 </html>

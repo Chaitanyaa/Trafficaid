@@ -61,6 +61,7 @@ def getreal(Fwy):
         r = requests.get(url = url)
         data = r.json()
         df = pd.read_json(data, orient='columns')[cols]
+        print("counting",df.count())
         dfx=df.set_index(['station','timestamp_']).sort_values(['station','timestamp_'])[colstomod]
         stationid = station
         modelfile = "../models/"+str(Fwy)+"_"+str(stationid)+"_"+"speed.h5"

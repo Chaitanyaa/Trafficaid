@@ -87,6 +87,7 @@ def predict_data(df, model, scaler1):
     my_model = tf.keras.models.load_model(model)
     
     # make a prediction
+    print("Printing test_x:",test_X)
     yhat = my_model.predict(test_X)
     test_X = test_X.reshape((test_X.shape[0], test_X.shape[2]))
     
