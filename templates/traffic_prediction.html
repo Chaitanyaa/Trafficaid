@@ -6,9 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="{{url_for('static', filename='css/main.css') }}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/main1.css') }}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css') }}">
     <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 </head>
-<body class="is-preload">
+<style>
+div.horizontalgap {
+  float: left;
+  overflow: hidden;
+  height: 1px;
+  width: 0px;
+}
+</style>
+<body class="is-preload" style="overflow-x: hidden; overflow-y: hidden;margin-left: -10px;" onload="startTime()">
 <!-- Header -->
 <div id="header">
 
@@ -17,19 +26,19 @@
         <!-- Logo -->
         <div id="logo">
             <span class="image avatar48"><img src="{{url_for('static', filename='images/trafficaid.png')}}" alt="" /></span>
-            <h1 id="title">Traffic Aid</h1>
+            <h1 id="title" style="margin-left: -20px;">Traffic Aid</h1>
             <p>for planners and commuters</p>
         </div>
-<br/><br/><br/><br/>
+        <div style="margin-right: 100px;"><span class="icon solid fa-home" style="margin-right: 50px;"></span><h4>BAY AREA</h4></div>
+<br/><br/><br/>
         <!-- Nav -->
         <nav id="nav">
             <ul>
                 <li>
-                    <div style="margin-right:128px">
-                        <br/><br/>
-                        <form action="/prediction">
-                        <div class="form-group" style="margin-left:20px">
-                                    <select class="form-control" name="fwy" id="fwy">
+                    <div style="margin-right:100px;  margin-left:30px">
+                        <form action="/prediction" method="post">
+                        <div class="form-group">
+                                    <select class="form-control" name="fwy" id="fwy" value="101">
                                         <option value="" disabled selected>Select a Freeway</option>
                                         <option value="101">U.S 101</option>
                                         <option value="680">I680</option>
@@ -43,9 +52,11 @@
             </ul>
         </nav>
 
-
-        <div id="div" style="margin-right:40px">
-            <button id="submit">Submit</button>
+        <div id="div" style="margin-right:70px">
+            <button id="submit" class="btn btn-warning">Submit</button>
+        </div>
+        <br><br>
+        <div style="margin-right:50px"><p style="color:#ffffff"><h4>Travel Time</h4> {{timetaklow}} to {{timetakhigh}} mins</p>
         </div>
         </form>
 
@@ -56,92 +67,100 @@
 </div>
 <!-- Main -->
 <div id="main">
-    <nav id="nav3" class="nav1">
+    <nav id="nav3" class="nav1" style="width: 100%;">
         <ul>
             <li><a href="/" style="color:#ffffff">Home</a></li>
             <li><a href="/about" style="color:#ffffff">Project Synopsys</a></li>
             <li><a href="/data" style="color:#ffffff">Raw Data Analysis</a></li>
             <li><a href="/model" style="color:#ffffff">Model Evaluation</a></li>
-            <li><a href="/prediction" style="color:#ffffff" class="active">Traffic Prediction</a></li>
+            <li><a href="/prediction" style="color:#ffffff" class="active"><span class="icon solid fa-circle" style="color:#267326;"></span>&nbsp Traffic Prediction</a></li>
         </ul>
-
     </nav>
 
-    <!-- Live Traffic
-    <nav id="nav1" class="nav1">
-        <ul>
-            <li><a href="#commuter" class="active" >Real-Time Traffic Analysis</a></li>
-            <li><a href="#commuterPred">Real-Time Traffic Prediction</a></li>
-        </ul>
-    </nav>-->
+    <!-- Live Traffic-->
     </br>
     </br>
-    <div class="pred nav1" >
-        <hr noshade="noshade">
-        <ul >
-            <li class="btn btn-primary"><a href="#commuter" style="color:#ffffff" class="active" >Real-Time Traffic Analysis</a></li>
-            <li><a href="#commuterPred" style="color:#ffffff">Real-Time Traffic Prediction</a></li>
-        </ul>
-    </div>
-    <section id="commuter" class="four">
+    <section id="commuter" class="four" style="margin-top: -40px;">
         <!-- Nav -->
-        </br>
-        <header>
-            <h2>Real-Time Traffic Analysis</h2>
-        </header>
-        <div class="container">
-
-            <!--<div align="right">
-                <strong style="font-size: 35px;font-weight:900px"><span class="icon solid fa-clock">  Travel Time:XXX</span></strong>
-            </div>-->
-            <!--<iframe src="{{url_for('static', filename='Map.html')}}" style="height:500px;width:900px;"></iframe>-->
-            <iframe src="/getFoliumMapPred" height="900" width="900"></iframe>
-        </div>
-
-    </section>
-    <section id="commuterPred" style="margin-top: 0px;padding-top: 0px;">
-    <nav id="nav4" class="nav1">
-        <ul>
-            <li><a href="/" style="color:#ffffff">Home</a></li>
-            <li><a href="/about" style="color:#ffffff">Project Synopsys</a></li>
-            <li><a href="/data" style="color:#ffffff">Raw Data Analysis</a></li>
-            <li><a href="/model" style="color:#ffffff">Model Evaluation</a></li>
-            <li><a href="/prediction" style="color:#ffffff" class="active">Traffic Prediction</a></li>
-        </ul>
-
-    </nav>
-
-    <!-- Live Traffic
-    <nav id="nav1" class="nav1">
-        <ul>
-            <li><a href="#commuter" class="active" >Real-Time Traffic Analysis</a></li>
-            <li><a href="#commuterPred">Real-Time Traffic Prediction</a></li>
-        </ul>
-    </nav>-->
-    </br>
-    </br>
-    <div class="pred nav1">
-        <hr noshade="noshade">
-        <ul>
-            <li class="btn btn-primary"><a href="/prediction" style="color:#ffffff" >Real-Time Traffic Analysis</a></li>
-            <li><a href="#commuterPred" class="active" style="color:#ffffff">Real-Time Traffic Prediction</a></li>
-        </ul>
-    </div>
-
-        <!-- Nav -->
-        <header>
-            <br/><br/><br/>
-            <h2>Real-Time Traffic Prediction</h2>
-        </header>
-        <div class="container">
-
-            <div align="right">
-                <strong style="font-size: 35px;font-weight:900px"><span class="icon solid fa-clock">  Travel Time:XXX</span></strong>
-            </div>
-            <iframe src="{{url_for('static', filename='Map.html')}}" style="height:500px;width:900px;"></iframe>
-        </div>
-
-    </section>
+        <h2><div id="txt" style="margin-left: -600px;margin-top: 50px;"></div></h2>
+        <table style="margin-left: 70px;margin-top: -90px;">
+            <tr>
+                <td>
+                    <br><br>
+                <table>
+                <tr>
+                <div class="alert alert-dismissible alert-info">
+                    <div class="horizontalgap" style="width:70px"></div>
+                    <span class="image avatar48"><img src="{{url_for('static', filename='images/windspeed.png')}}" alt="" /></span>
+                    <br>
+                    <div class="horizontalgap" style="width:20px"></div>
+                    <a href="#" class="alert-link">Wind Speed: {{avgwindspeed}}</a>
+                </div>
+                </tr>
+                <tr>
+                    <div class="alert alert-dismissible alert-info">
+                    <div class="horizontalgap" style="width:70px"></div>   
+                    <span class="image avatar48"><img src="{{url_for('static', filename='images/precipitation.png')}}" alt="" /></span>
+                    <br>
+                    <div class="horizontalgap" style="width:20px"></div>
+                    <a href="#" class="alert-link">Precipitation: {{avgprecipitation}}</a>
+                    </div>
+                </tr>
+                <tr>
+                    <div class="alert alert-dismissible alert-info">
+                    <div class="horizontalgap" style="width:70px"></div>    
+                     <span class="image avatar48"><img src="{{url_for('static', filename='images/visibility.png')}}" alt="" /></span>
+                     <br>
+                     <div class="horizontalgap" style="width:30px"></div>
+                     <a href="#" class="alert-link">Visibility: {{avgvisibility}}</a>
+                    </div>
+                </tr>
+                <tr>
+                    <div class="alert alert-dismissible alert-info">
+                        <div class="horizontalgap" style="width:70px"></div>
+                     <span class="image avatar48"><img src="{{url_for('static', filename='images/incident.png')}}" alt="" /></span>
+                     <br>
+                     <div class="horizontalgap" style="width:30px"></div>
+                     <a href="#" class="alert-link">Incidents: {{incidentcount}}</a>
+                    </div>
+                </tr>
+                </table>
+                </td>    
+                <td>    
+                <div class="container">
+                    <table style="width: 60%;height: 50%;">
+                        <tr>
+                            <td>
+                            <div class="alert alert-dismissible alert-info" style="width: 100%;">
+                                <div class="horizontalgap" style="width:120px"></div>
+                                <span class="image avatar48"><img src="{{url_for('static', filename='images/trafficspeed.png')}}" alt="" /></span>
+                                <br>
+                                <div class="horizontalgap" style="width:90px"></div>
+                                <a href="#" class="alert-link">Traffic Speed: {{avgspeed}}</a>
+                            </div>
+                            </td>
+                            <td>
+                            <div class="alert alert-dismissible alert-info" style="width: 100%;">
+                                <div class="horizontalgap" style="width:120px"></div>
+                                <span class="image avatar48"><img src="{{url_for('static', filename='images/occupancy.png')}}" alt="" /></span>
+                                <br>
+                                <div class="horizontalgap" style="width:90px"></div>
+                                <a href="#" class="alert-link">Occupancy: {{avgocc}}</a>
+                            </div>
+                            </td>
+                        </tr><tr><td colspan="2">
+                    <!--<div align="right">
+                        <strong style="font-size: 35px;font-weight:900px"><span class="icon solid fa-clock">  Travel Time:XXX</span></strong>
+                    </div>-->
+                    <iframe src="{{url_for('static', filename='Map.html')}}" style="height:420px;width:650px;border: 2px solid grey;"></iframe>
+                    <!--<iframe src="/getFoliumMapPred" height="900" width="900"></iframe>-->
+                </td></tr>
+                    </table>    
+                </div>
+                </td>
+            </tr>
+    </table>
+    </section>    
 </div>
 
 <!-- Footer -->
@@ -157,6 +176,22 @@
 <script src="{{ url_for('static', filename='js/breakpoints.min.js') }}"></script>
 <script src="{{ url_for('static', filename='js/util.js') }}"></script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
-
+<script>
+    function startTime() {
+    var today = new Date();
+    var h = today.getHours();
+    var m = today.getMinutes();
+    var s = today.getSeconds();
+    m = checkTime(m);
+    s = checkTime(s);
+    document.getElementById('txt').innerHTML =
+    h + ":" + m + ":" + s;
+    var t = setTimeout(startTime, 500);
+    }
+    function checkTime(i) {
+    if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+    return i;
+    }
+</script>
 </body>
 </html>
