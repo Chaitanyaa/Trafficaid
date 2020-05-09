@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
     <link rel="stylesheet" href="{{url_for('static', filename='css/main.css') }}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/main1.css') }}">
-    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css') }}">
     <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 </head>
 <body class="is-preload">
 <!-- Header -->
@@ -30,16 +30,15 @@
                 <li>
                     <div style="margin-right:128px">
                         <br/><br/>
-                        <form action="/action_page.php">
+                        <form id="filterForm" action="javascript:myFunction(); return false;">
                             <div class="form-group" style="margin-left:20px">
                                 <input type="text" class="form-control" id="station" aria-describedby="station" placeholder="stationid" value="400001"><br/>
                             </div>
                             <div class="form-group" style="margin-left:20px">
-                                <select name="fwy" class="form-control" id="fwy">
-                                    <option value="" disabled selected>Select a Model</option>
-                                    <option>LSTM</option>
-                                    <option>Ensemble</option>
-                                    <option>RandomForest</option>
+                                <select name="fwy" class="form-control" id="selval">
+                                    <option value="" disabled selected>Select a Value</option>
+                                    <option>Prediction</option>
+                                    <option>Metrics</option>
                                 </select>
                             </div>
                     </div>
@@ -50,16 +49,57 @@
 
         <!--Refresh-->
         <script>
-            $("#Refresh").click(function() {
-                $("#div").load(location.href + "#div > *","");
+        $(document).ready(function() {
+            $("#metrics1").hide();
+            $("#ap2").hide();
+            $("#metrics2").hide();
+            $("#station").val("400001")
+            $("#selval").val("Prediction")
+            $("#submitbtn").click(function() {
+                var station = $("#station").val()
+                var sel_val = $("#selval").val()
+                if(station=="400001" && sel_val=="Metrics"){
+                    $("#ap1").hide();
+                    $("#metrics1").show();
+                    $("#ap2").hide();
+                    $("#metrics2").hide();
+                    $("#station").val("400001")
+                    $("#selval").val("Metrics")
+                }
+                else if(station=="401871" && sel_val=="Prediction"){
+                    $("#ap1").hide();
+                    $("#metrics1").hide();
+                    $("#ap2").show();
+                    $("#metrics2").hide();
+                    $("#station").val("401871")
+                    $("#selval").val("Prediction")
+                }
+                else if(station=="401871" && sel_val=="Metrics"){
+                    $("#ap1").hide();
+                    $("#metrics1").hide();
+                    $("#ap2").hide();
+                    $("#metrics2").show();
+                    $("#station").val("401871")
+                    $("#selval").val("Metrics")
+                }
+                else {
+                    $("#ap1").show();
+                    $("#metrics1").hide();
+                    $("#ap2").hide();
+                    $("#metrics2").hide();
+                    $("#station").val("400001")
+                    $("#selval").val("Prediction")
+                }
+                
+                
             });
+        });
         </script>
         <br/>
         <div id="div" style="margin-right:40px">
-            <button id="submit" class="btn btn-warning">Submit</button>
+            <button id="submitbtn">Submit</button>
         </div>
-        </form>
-
+    </form>
     </div>
 
     <div class="bottom">
@@ -67,13 +107,13 @@
 </div>
 <!-- Main -->
 <div id="main">
-    <nav id="nav3" class="nav1" style="width: 100%;">
+    <nav id="nav3" class="nav1">
         <ul>
             <li><a href="/" style="color:#ffffff">Home</a></li>
-            <li><a href="/about" style="color:#ffffff">About</a></li>
+            <li><a href="/about" style="color:#ffffff">Project Synopsys</a></li>
             <li><a href="/data" style="color:#ffffff">Raw Data Analysis</a></li>
-            <li><a href="/model" style="color:#ffffff">Model Evaluation</a></li>
-            <!--<li><a href="/prediction" style="color:#ffffff">Traffic Prediction</a></li>-->
+            <li><a href="/model" class="active" style="color:#ffffff">Model Evaluation</a></li>
+            <li><a href="/prediction" style="color:#ffffff">Traffic Prediction</a></li>
         </ul>
     </nav>
 
@@ -81,63 +121,112 @@
     <section id="model" class="two">
         <div class="container">
 
-            <header>
-                <h2>Model Performance</h2>
-            </header>
-            <div class="row">
-                <div class="col-4 col-12-mobile">
-                    <article class="item">
-                        <a href="#" class="image fit"><img style="height:300px; width:440px;" src="{{ url_for('static', filename='images/Graph1.png') }}" alt="" /></a>
-                        <header>
-                            <h3>Actual versus Predicted Speed graphs for three different Models</h3>
-                        </header>
-                    </article>
-                </div>
-                <div class="col-4 col-12-mobile">
-                    <article class="item">
-                        <a href="#" class="image fit"><img style="height:300px; width:440px;" src="{{ url_for('static', filename='images/Graph3.png') }}" alt="" /></a>
-                        <header>
-                            <h3 style="width:450px;">Metrics compared for various models</h3>
-                        </header>
-                    </article>
-                </div>
-                <div class="col-4 col-12-mobile">
-                    <article class="item">
-                        <a href="#" class="image fit"><img style="height:300px; width:440px;" src="{{url_for('static', filename='images/Graph4.png')}}" alt="" /></a>
-                        <header>
-                            <h3>Confusion Matrix</h3>
-                        </header>
-                    </article>
-                </div>
-            </div>
-<br/>
-            <div class="row">
-                <div class="col-4 col-12-mobile">
-                    <article class="item">
-                        <a href="#" class="image fit"><img style="height:300px; width:440px;" src="{{url_for('static', filename='images/Graph5.png')}}" alt="" /></a>
-                        <header>
-                            <h3>Classification model performances</h3>
-                        </header>
-                    </article>
-                </div>
-                <div class="col-4 col-12-mobile">
-                    <article class="item">
-                        <a href="#" class="image fit"><img style="height:300px; width:440px;" src="{{url_for('static', filename='images/Graph6.png')}}" alt="" /></a>
-                        <header>
-                            <h3>RMSE and MSE Score comparisons of models</h3>
-                        </header>
-                    </article>
-                </div>
-                <div class="col-4 col-12-mobile">
-                    <article class="item">
-                        <a href="#" class="image fit"><img style="height:300px; width:440px;" src="{{url_for('static', filename='images/Graph7.png')}}" alt="" /></a>
-                        <header>
-                            <h3>Loss curves for LSTM</h3>
-                        </header>
-                    </article>
-                </div>
-            </div>
+           
+            <div id="ap1" style='position: relative;margin-left:200px;'>
+                <header>
+                    <h2>Actual Vs Predicted for 400001</h2>
+                </header>
+                <div class='tableauPlaceholder' id='viz1588920781886' style='position: relative;'>
+                    <noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Sp&#47;SpeedPrediction_400001&#47;Dashboard2&#47;1_rss.png' style='border: none' /></a></noscript>
+                    <object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='embed_code_version' value='3' /> 
+                        <param name='site_root' value='' /><param name='name' value='SpeedPrediction_400001&#47;Dashboard2' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Sp&#47;SpeedPrediction_400001&#47;Dashboard2&#47;1.png' /> 
+                        <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' />
+                    </object>
+                </div> 
+            </div>               
+            <script type='text/javascript'>                    
+            var divElement = document.getElementById('viz1588920781886');                    
+            var vizElement = divElement.getElementsByTagName('object')[0];                    
+            if ( divElement.offsetWidth > 800 ) 
+            { vizElement.style.width='1000px';vizElement.style.height='827px';} 
+            else if ( divElement.offsetWidth > 500 ) 
+            { vizElement.style.width='1000px';vizElement.style.height='827px';} 
+            else { vizElement.style.width='1500px';vizElement.style.height='827px';} 
+            var scriptElement = document.createElement('script');    
+                          scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
 
+<div id="metrics1" style='position: relative;margin-left:200px;'>
+    <header>
+        <h2>Metrics for 400001</h2>
+    </header>
+            <div class='tableauPlaceholder' id='viz1588990939559' style='position: relative'>
+                <noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Me&#47;Metrics_400001&#47;Dashboard1&#47;1_rss.png' style='border: none' /></a></noscript>
+                <object class='tableauViz'  style='display:none;'>
+                    <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+                     <param name='embed_code_version' value='3' /> <param name='site_root' value='' />
+                     <param name='name' value='Metrics_400001&#47;Dashboard1' /><param name='tabs' value='no' />
+                     <param name='toolbar' value='yes' />
+                     <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Me&#47;Metrics_400001&#47;Dashboard1&#47;1.png' /> 
+                     <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' />
+                     <param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' />
+                     <param name='display_count' value='yes' />
+                    </object>
+                </div>  
+        </div>              
+                     <script type='text/javascript'>                    
+                     var divElement = document.getElementById('viz1588990939559');
+                     var vizElement = divElement.getElementsByTagName('object')[0]; 
+                     if ( divElement.offsetWidth > 800 ) { vizElement.style.width='1000px';vizElement.style.height='827px';} 
+                     else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='1000px';vizElement.style.height='827px';} 
+                     else { vizElement.style.width='1500px';vizElement.style.height='827px';}                     
+                     var scriptElement = document.createElement('script');                    
+                     scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    
+                     vizElement.parentNode.insertBefore(scriptElement, vizElement);               
+                    </script>
+                <div id="ap2" style='position: relative;margin-left:200px;'>
+                    <header>
+                        <h2>Actual Vs Predicted for 401871</h2>
+                    </header>
+                <div class='tableauPlaceholder' id='viz1588991166263'><noscript><a href='#'>
+                    <img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Sp&#47;SpeedPrediction_401871&#47;Dashboard1&#47;1_rss.png' style='border: none' /></a></noscript>
+                    <object class='tableauViz'  style='display:none;'>
+                        <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
+                        <param name='embed_code_version' value='3' /> <param name='site_root' value='' />
+                        <param name='name' value='SpeedPrediction_401871&#47;Dashboard1' />
+                        <param name='tabs' value='no' /><param name='toolbar' value='yes' />
+                        <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Sp&#47;SpeedPrediction_401871&#47;Dashboard1&#47;1.png' />
+                        <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' />
+                        <param name='display_overlay' value='yes' /><param name='display_count' value='yes' />
+                    </object>
+                </div>    
+                </div>            
+                <script type='text/javascript'>                    
+                var divElement = document.getElementById('viz1588991166263');                    
+                var vizElement = divElement.getElementsByTagName('object')[0];                    
+                if ( divElement.offsetWidth > 800 ) { vizElement.style.width='1000px';vizElement.style.height='827px';} 
+                else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='1000px';vizElement.style.height='827px';} 
+                else { vizElement.style.width='1000px';vizElement.style.height='727px';}                     
+                var scriptElement = document.createElement('script');                    
+                scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    
+                vizElement.parentNode.insertBefore(scriptElement, vizElement);                
+                </script>
+<div id="metrics2" style='position: relative;margin-left:200px;'>
+    <header>
+        <h2>Metrics for 401871</h2>
+    </header>
+                <div class='tableauPlaceholder' id='viz1588991291491' style='position: relative'>
+                    <noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Me&#47;Metrics-401871&#47;Dashboard2&#47;1_rss.png' style='border: none' /></a></noscript>
+                    <object class='tableauViz'  style='display:none;'>
+                        <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
+                        <param name='embed_code_version' value='3' /> <param name='site_root' value='' />
+                        <param name='name' value='Metrics-401871&#47;Dashboard2' /><param name='tabs' value='no' />
+                        <param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Me&#47;Metrics-401871&#47;Dashboard2&#47;1.png' />
+                        <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' />
+                        <param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' />
+                        <param name='display_count' value='yes' />
+                    </object>
+                </div>  
+</div>              
+                        <script type='text/javascript'>                    
+                        var divElement = document.getElementById('viz1588991291491');                    
+                        var vizElement = divElement.getElementsByTagName('object')[0];                    
+                        if ( divElement.offsetWidth > 800 ) { vizElement.style.width='1000px';vizElement.style.height='827px';} 
+                        else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='1000px';vizElement.style.height='827px';} 
+                        else { vizElement.style.width='1000px';vizElement.style.height='727px';}                     
+                        var scriptElement = document.createElement('script');                    
+                        scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    
+                        vizElement.parentNode.insertBefore(scriptElement, vizElement);                
+                        </script>
         </div>
     </section>
 </div>
