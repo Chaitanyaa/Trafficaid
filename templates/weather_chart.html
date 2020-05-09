@@ -1,0 +1,46 @@
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js"></script>
+<link rel="stylesheet" href="{{url_for('static', filename='css/main.css') }}">
+<link rel="stylesheet" href="{{url_for('static', filename='css/main1.css') }}">
+<noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+<div>
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Total Incidents</th>
+            <th scope="col">{{weather_details[3]}}</th>
+          </tr>
+        </thead>
+      </table>
+      <br/>
+    <table class="table table-hover">
+        <thead>
+          <tr>
+            <th scope="col">Weather Feature</th>
+            <th scope="col">Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="table-active">
+            <td>Avg Wind Speed</td>
+            <td>{{weather_details[0]}}</td>
+          </tr>
+          <tr class="table-primary">
+            <td>Avg Percipitation</td>
+            <td>{{weather_details[2]}}</td>
+          </tr>
+          <tr class="table-secondary">
+            <td>Avg Visibility</td>
+            <td>{{weather_details[1]}}</td>
+          </tr>
+        </tbody>
+      </table>
+</div>
+<!--Scripts-->
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.scrolly.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.scrollex.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/browser.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/breakpoints.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/util.js') }}"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>

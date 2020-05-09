@@ -76,9 +76,46 @@
         <div class="container">
             <h2>
                 <br/>
-                Dashboard
+                Dashboard for {{details[0]}}{{details[1]}} on {{details[2]}}
             </h2>
-            <iframe src="/getFoliumMap" height="900" width="900"></iframe>
+            <div class="row">
+                <div class="col-4 col-12-mobile">
+                    <article class="item">
+                        <iframe src="/getFoliumMap" style="height:500px; width:740px;"></iframe>
+                        <header style="width:740px;">
+                            <h3 style="width:740px;"><b>Station Data</b></h3>
+                        </header>
+                    </article>
+                </div>
+           
+                <div class="col-4 col-12-mobile">
+                    <article class="item">
+                        <iframe src="/simple_chart" style="height:500px; width:640px;margin-left:300px;"></iframe>
+                        <header style="width:640px;margin-left:300px;">
+                            <h3 style="width:640px;"><b>Incident Count in Each County</b></h3>
+                        </header>
+                    </article>
+                </div>
+            </div>
+        </br>
+            <div class="row">
+                <div class="col-4 col-12-mobile">
+                    <article class="item">
+                        <iframe src="/dual_chart" style="height:500px; width:740px;"></iframe>
+                        <header style="width:740px;">
+                            <h3 style="width:740px;"><b>Speed Vs Occupancy</b></h3>
+                        </header>
+                    </article>
+                </div>
+                <div class="col-4 col-12-mobile">
+                    <article class="item">
+                        <iframe src="/weather_chart" style="height:500px; width:640px;margin-left:300px;"></iframe>
+                        <header style="width:640px;margin-left:300px;">
+                            <h3 style="width:640px;"><b>Weather Details</b></h3>
+                        </header>
+                    </article>
+                </div>
+            </div>
         </div>
     </section>
 

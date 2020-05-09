@@ -23,7 +23,6 @@ import numpy as np
 
 from flask import Flask, redirect, url_for,session,request, render_template
 import time
-import config
 import charts
 #session_requests = requests.session()
 #from bs4 import BeautifulSoup as BS
@@ -32,8 +31,6 @@ import charts
 # Define a flask app
 app = Flask(__name__)
 app.secret_key='trafficaid'
-
-
 
 # Route the user to the homepage
 @app.route('/', methods = ['GET'])
@@ -50,26 +47,105 @@ def about():
 def data():
     #my_map = getFoliumdata()
     #return my_map._repr_html_()
+    session.clear()
     if request.method == 'POST':
         stationid=request.form.get('station')
         Fwy=request.form.get('fwy')
         startDate=request.form.get('filterDate')
-        print("here",Fwy)
-        redirect(url_for('getFoliumMap',stationid = stationid,Fwy=Fwy,startdate=startDate))
-    return render_template('dataAnalysis.html')
+        session['stationid']=stationid
+        session['Fwy']=Fwy
+        if startDate!="":
+            startDate=startDate+" 00:00:00"
+        session['startDate']=startDate
+        redirect(url_for('getFoliumMap'))
+    stationid=session.get('stationid')
+    Fwy=session.get('Fwy')
+    startDate=session.get('startDate')
+    if not stationid:
+        stationid=""
+    if not Fwy:
+        Fwy=""
+    if not startDate:
+        startDate='2018-01-01 00:00:00'
+    if (stationid=="") & (Fwy==""):
+        Fwy="280"
+    details=[stationid,Fwy,startDate[0:10]]
+    return render_template('dataAnalysis.html',details=details)
+
+@app.route("/simple_chart")
+def chart():
+    stationid=session.get('stationid')
+    Fwy=session.get('Fwy')
+    startDate=session.get('startDate')
+    if not stationid:
+        stationid=""
+    if not Fwy:
+        Fwy=""
+    if not startDate:
+        startDate='2018-01-01 00:00:00'
+    if (stationid=="") & (Fwy==""):
+        Fwy="280"
+    bar = charts.create_plot(stationid,Fwy,startDate)
+    return render_template('chart.html', plot=bar)
+
+@app.route("/dual_chart")
+def dual_chart():
+    stationid=session.get('stationid')
+    Fwy=session.get('Fwy')
+    startDate=session.get('startDate')
+    if not stationid:
+        stationid=""
+    if not Fwy:
+        Fwy=""
+    if not startDate:
+        startDate='2018-01-01 00:00:00'
+    if (stationid=="") & (Fwy==""):
+        Fwy="280"
+    bar = charts.create_dual_plot(stationid,Fwy,startDate)
+    return render_template('dual_chart.html', plot=bar)
+
+@app.route("/weather_chart")
+def weather_chart():
+    stationid=session.get('stationid')
+    Fwy=session.get('Fwy')
+    startDate=session.get('startDate')
+    if not stationid:
+        stationid=""
+    if not Fwy:
+        Fwy=""
+    if not startDate:
+        startDate='2018-01-01 00:00:00'
+    if (stationid=="") & (Fwy==""):
+        Fwy="280"
+    weather_details=charts.create_weather_chart(stationid,Fwy,startDate)
+    return render_template('weather_chart.html',weather_details=weather_details)
 
 # Route to model page
 @app.route('/model', methods = ['GET'])
 def model():
     return render_template('model.html')
+
 # Route to prediction page
 @app.route('/prediction', methods = ['GET'])
 def prediction():
     return render_template('traffic_prediction.html')
 
-@app.route('/getFoliumMap', methods = ['GET','POST'])
-def getFoliumMap(stationid="",Fwy="",startdate = '2018-01-01 05:00:00'):
-    my_map=charts.get_folium_map(stationid,Fwy,startdate)
+@app.route('/getFoliumMap')
+def getFoliumMap():
+
+    stationid=session.get('stationid')
+    Fwy=session.get('Fwy')
+    startDate=session.get('startDate')
+    if not stationid:
+        stationid=""
+    if not Fwy:
+        Fwy=""
+    if not startDate:
+        startDate='2018-01-01 00:00:00'
+    if (stationid=="") & (Fwy==""):
+        Fwy="280"
+    print("Session",stationid,Fwy,startDate)
+    my_map=charts.get_folium_map(stationid,Fwy,startDate)
     #my_map.save('index.html')
     return my_map._repr_html_()
 
@@ -87,7 +163,6 @@ def getFoliumMapPred():
     Fwy = request.form.get("fwy") # Required Listbox
     pointA = request.form.get("pointa") #dummy textbox
     pointB = request.form.get("pointb") #dummy textbox
-    print(Fwy)
     # stations_list = [400319,407710,403402,400335,420614,404690,400868,400661,400119,401472,400844,401871,401545,400284,400662]
     if(Fwy==101):
         stations_list = list101
@@ -105,7 +180,6 @@ def getFoliumMapPred():
     cols = ['station','timestamp_','occupancy','hourlyprecipitation','hourlywindspeed','hourlyvisibility','incident','day_of_week_num','hour_of_day','weekend','speed']
     final = pd.DataFrame(columns=cols)
     for station in stations_list:
-        #print(station)
         url = "https://n8nucy5gbh.execute-api.us-east-2.amazonaws.com/production/realtime/?station="+str(station)
         r = requests.get(url = url)
         data = r.json()
@@ -124,7 +198,6 @@ def getFoliumMapPred():
     onoff_withmeta_df = df_traffic_metadata[df_traffic_metadata['ID'].isin(onoff)]
     onoff_withmeta_df.drop_duplicates(subset='ID',inplace=True)
     withmeta_df = final.merge(df_traffic_metadata,left_on="station",right_on="ID",how="left").round(3)
-    print(result)
 
     #101
     gpx_file101 = open('101.gpx', 'r')
@@ -244,7 +317,7 @@ def getFoliumMapPred():
     return my_map._repr_html_()
 
 if __name__ == '__main__':
-	app.run(debug=True, port=20033)
+	app.run( debug=True,port=20074)
 
 
 
