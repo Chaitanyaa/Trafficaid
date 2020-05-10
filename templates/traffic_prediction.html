@@ -7,7 +7,10 @@
     <link rel="stylesheet" href="{{url_for('static', filename='css/main.css') }}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/main1.css') }}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css') }}">
-    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.4.1/cerulean/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+  <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
 </head>
 <style>
 div.horizontalgap {
@@ -18,6 +21,19 @@ div.horizontalgap {
 }
 </style>
 <body class="is-preload" style="overflow-x: hidden; overflow-y: hidden;margin-left: -10px;" onload="startTime()">
+    <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Real-Time</h5>
+          </div>
+        <div class="modal-body">
+          <h4>Something about realtime --- midnight to till now, 1 hr intervals, input upto last hr, predict for next hour</h4>
+        </div>
+      </div>
+    </div>
+  </div>
 <!-- Header -->
 <div id="header">
 
@@ -30,7 +46,7 @@ div.horizontalgap {
             <p>for planners and commuters</p>
         </div>
         <div style="margin-right: 100px;"><span class="icon solid fa-home" style="margin-right: 50px;"></span><h4>BAY AREA</h4></div>
-<br/><br/><br/>
+        <br/><br/><br/>
         <!-- Nav -->
         <nav id="nav">
             <ul>
@@ -70,7 +86,7 @@ div.horizontalgap {
     <nav id="nav3" class="nav1" style="width: 100%;">
         <ul>
             <li><a href="/" style="color:#ffffff">Home</a></li>
-            <li><a href="/about" style="color:#ffffff">About</a></li>
+            <li><a href="/aboutc" style="color:#ffffff">About</a></li>
             <!--<li><a href="/data" style="color:#ffffff">Raw Data Analysis</a></li>-->
             <!--<li><a href="/model" style="color:#ffffff">Model Evaluation</a></li>-->
             <li><a href="/prediction" style="color:#ffffff" class="active"><span class="icon solid fa-circle" style="color:#267326;"></span>&nbsp Traffic Prediction</a></li>
@@ -80,9 +96,11 @@ div.horizontalgap {
     <!-- Live Traffic-->
     </br>
     </br>
-    <section id="commuter" class="four" style="margin-top: -40px;">
+    <br>
+    <h5><a href="#exampleModal" data-toggle="modal" style="color:black;margin-left: 50px;">More Details</a></h5>
+    <section id="commuter" class="four" style="margin-top: -100px;">
         <!-- Nav -->
-        <h2><div id="txt" style="margin-left: -600px;margin-top: 50px;"></div></h2>
+        <h2><div id="txt" style="margin-left: -650px;margin-top: 50px;"></div></h2>
         <table style="margin-left: 70px;margin-top: -90px;">
             <tr>
                 <td>
@@ -179,20 +197,26 @@ div.horizontalgap {
 <script>
     function startTime() {
     var today = new Date();
+    var d = today.getDate();
+    var mon = today.getMonth();
+    var year = today.getFullYear(); 
     var h = today.getHours();
     var m = today.getMinutes();
     var s = today.getSeconds();
     m = checkTime(m);
     s = checkTime(s);
     document.getElementById('txt').innerHTML =
-    h + ":" + m + ":" + s;
+    mon+"/"+d+"/"+year+" "+h + ":" + m + ":" + s;
     var t = setTimeout(startTime, 500);
     }
     function checkTime(i) {
     if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
     return i;
     }
+    
 </script>
+<script>var dt = new Date();
+    document.getElementById("datetime").innerHTML=dt.toLocaleString();</script>
 
 </body>
 </html>
