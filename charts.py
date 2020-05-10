@@ -24,6 +24,7 @@ def def_variables(stationid,Fwy,startdate,intent):
     #enddate = '2018-01-02 00:00:00' # Can be blank (Optional) calendar
     start_obj = dt.datetime.strptime(startdate, '%Y-%m-%d %H:%M:%S')
     end_obj = start_obj+dt.timedelta(days=1)
+    year = startdate[0:4]
     #end_obj = dt.datetime.strptime(enddate, '%Y-%m-%d %H:%M:%S')
     #if(enddate!=""):
     #    end_obj = dt.datetime.strptime(enddate, '%Y-%m-%d %H:%M:%S')
@@ -36,7 +37,7 @@ def def_variables(stationid,Fwy,startdate,intent):
     AWS_ACCESS_KEY = "AKIA4JL5A5WR3V5RODMP"
     AWS_SECRET_KEY = "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"
     s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY,aws_secret_access_key=AWS_SECRET_KEY)
-    traffic_weather_incident = io.BytesIO(s3.get_object(Bucket='pemstwi', Key='2015_2019/twi')['Body'].read())
+    traffic_weather_incident = io.BytesIO(s3.get_object(Bucket='pemstwi', Key=year+'/twi')['Body'].read())
     # twi_df = pd.read_csv('C:/Sindu_SJSU/Sem04/trafficaid-master/twi_df_500.csv')
     twi_df = pd.read_parquet(traffic_weather_incident)
     if(end_obj!=""): 
@@ -81,6 +82,7 @@ def def_variables(stationid,Fwy,startdate,intent):
 
 def create_plot(stationid,Fwy,startdate):
     selected_date_withmeta_df=def_variables(stationid,Fwy,startdate,"pie")
+    #selected_date_withmeta_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/SampleData/selected_date_withmeta_df.csv")
     incident_df=selected_date_withmeta_df.groupby('County.1')['incident'].agg('sum').reset_index()
     x = incident_df['County.1']
     y = incident_df['incident']
@@ -105,6 +107,7 @@ def create_plot(stationid,Fwy,startdate):
 
 def create_weather_chart(stationid,Fwy,startdate):
     selected_date_withmeta_df=def_variables(stationid,Fwy,startdate,"weather")
+    #selected_date_withmeta_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/SampleData/selected_date_withmeta_df.csv")
     ws=round(selected_date_withmeta_df['hourlywindspeed'].agg('mean'),3)
     vis=round(selected_date_withmeta_df['hourlyvisibility'].agg('mean'),3)
     per=round(selected_date_withmeta_df['hourlyprecipitation'].agg('mean'),3)
@@ -113,6 +116,7 @@ def create_weather_chart(stationid,Fwy,startdate):
 
 def create_dual_plot(stationid,Fwy,startdate):
     selected_date_df=def_variables(stationid,Fwy,startdate,"dual")
+    #selected_date_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/SampleData/selected_date_df.csv")
     if(Fwy!=""):
         selected_date_df=selected_date_df[(selected_date_df['freeway']==int(Fwy))]
     occupancy_df=selected_date_df.groupby('timestamp_')['occupancy'].agg('mean').reset_index()
@@ -152,6 +156,7 @@ def create_dual_plot(stationid,Fwy,startdate):
 
 def get_folium_map(stationid,Fwy,startdate):
     selected_date_withmeta_df = def_variables(stationid,Fwy,startdate,"folium")
+    #selected_date_withmeta_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/SampleData/selected_date_withmeta_df.csv")
     print(selected_date_withmeta_df.head())
     stationsdisplaycount = 20
     #101
@@ -199,6 +204,7 @@ def get_folium_map(stationid,Fwy,startdate):
     my_map = folium.Map(location=[ave_lat, ave_lon], zoom_start=9,tiles="Stamen Terrain")
     if (Fwy=="") & (selected_date_withmeta_df['Fwy'].count() ==1):
         Fwy=selected_date_withmeta_df['Fwy']
+    print("here",Fwy)
     Fwy = str(int(Fwy))
     if(Fwy=="101"): 
         toggle101 = True 
