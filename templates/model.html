@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{url_for('static', filename='css/main.css') }}">
     <link rel="stylesheet" href="{{url_for('static', filename='css/main1.css') }}">
     <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css') }}">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
 </head>
 <body class="is-preload">
@@ -30,7 +31,7 @@
                 <li>
                     <div style="margin-right:128px">
                         <br/><br/>
-                        <form id="filterForm" action="javascript:myFunction(); return false;">
+                        <form id="filterForm" action="javascript:return false;">
                             <div class="form-group" style="margin-left:20px">
                                 <input type="text" class="form-control" id="station" aria-describedby="station" placeholder="stationid" value="400001"><br/>
                             </div>
@@ -97,7 +98,7 @@
         </script>
         <br/>
         <div id="div" style="margin-right:40px">
-            <button id="submitbtn">Submit</button>
+            <button id="submitbtn" class="btn btn-warning">Submit</button>
         </div>
     </form>
     </div>
@@ -107,10 +108,10 @@
 </div>
 <!-- Main -->
 <div id="main">
-    <nav id="nav3" class="nav1">
+    <nav id="nav3" class="nav1" style="width: 100%;">
         <ul>
             <li><a href="/" style="color:#ffffff">Home</a></li>
-            <li><a href="/about" style="color:#ffffff">Project Synopsys</a></li>
+            <li><a href="/aboutp" style="color:#ffffff">About</a></li>
             <li><a href="/data" style="color:#ffffff">Raw Data Analysis</a></li>
             <li><a href="/model" class="active" style="color:#ffffff">Model Evaluation</a></li>
             <li><a href="/prediction" style="color:#ffffff">Traffic Prediction</a></li>
@@ -120,11 +121,11 @@
     <!-- Model -->
     <section id="model" class="two">
         <div class="container">
-
-           
+            <br>
+            <div style="width:50%;height:50%;margin-left:-180px">
             <div id="ap1" style='position: relative;margin-left:200px;'>
                 <header>
-                    <h2>Actual Vs Predicted for 400001</h2>
+                    <h2>Station 400001</h2>
                 </header>
                 <div class='tableauPlaceholder' id='viz1588920781886' style='position: relative;'>
                     <noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Sp&#47;SpeedPrediction_400001&#47;Dashboard2&#47;1_rss.png' style='border: none' /></a></noscript>
@@ -144,11 +145,13 @@
             else { vizElement.style.width='1500px';vizElement.style.height='827px';} 
             var scriptElement = document.createElement('script');    
                           scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script>
-
-<div id="metrics1" style='position: relative;margin-left:200px;'>
-    <header>
-        <h2>Metrics for 400001</h2>
-    </header>
+        </div>
+           
+        <div style="width:80px;height:1000px;margin-left:-180px">
+            <div id="metrics1" style='position: relative;margin-left:200px;'>
+                <header>
+                    <h2>Station400001</h2>
+                </header>
             <div class='tableauPlaceholder' id='viz1588990939559' style='position: relative'>
                 <noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Me&#47;Metrics_400001&#47;Dashboard1&#47;1_rss.png' style='border: none' /></a></noscript>
                 <object class='tableauViz'  style='display:none;'>
@@ -162,21 +165,25 @@
                      <param name='display_count' value='yes' />
                     </object>
                 </div>  
-        </div>              
+        </div>  
+        </div>            
                      <script type='text/javascript'>                    
                      var divElement = document.getElementById('viz1588990939559');
                      var vizElement = divElement.getElementsByTagName('object')[0]; 
-                     if ( divElement.offsetWidth > 800 ) { vizElement.style.width='1000px';vizElement.style.height='827px';} 
-                     else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='1000px';vizElement.style.height='827px';} 
-                     else { vizElement.style.width='1500px';vizElement.style.height='827px';}                     
+                     if ( divElement.offsetWidth > 800 ) { vizElement.style.width='950px';vizElement.style.height='827px';} 
+                     else if ( divElement.offsetWidth > 500 ) { vizElement.style.width='950px';vizElement.style.height='827px';} 
+                     else { vizElement.style.width='950px';vizElement.style.height='827px';}                     
                      var scriptElement = document.createElement('script');                    
                      scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    
                      vizElement.parentNode.insertBefore(scriptElement, vizElement);               
                     </script>
-                <div id="ap2" style='position: relative;margin-left:200px;'>
-                    <header>
-                        <h2>Actual Vs Predicted for 401871</h2>
-                    </header>
+                <!-- <div style="width:80px;height:1000px;margin-left:-30px;margin-top:-600px;">     -->
+                    <div style="width:50%;height:50%;margin-left:-170px;margin-top:-1000px">
+                    <div id="ap2" style='position: relative;margin-left:200px;margin-top:-10px'>
+                    
+                        <header>
+                            <h2>Station401871</h2>
+                        </header>
                 <div class='tableauPlaceholder' id='viz1588991166263'><noscript><a href='#'>
                     <img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Sp&#47;SpeedPrediction_401871&#47;Dashboard1&#47;1_rss.png' style='border: none' /></a></noscript>
                     <object class='tableauViz'  style='display:none;'>
@@ -189,7 +196,8 @@
                         <param name='display_overlay' value='yes' /><param name='display_count' value='yes' />
                     </object>
                 </div>    
-                </div>            
+                </div>  
+            </div>          
                 <script type='text/javascript'>                    
                 var divElement = document.getElementById('viz1588991166263');                    
                 var vizElement = divElement.getElementsByTagName('object')[0];                    
@@ -200,9 +208,10 @@
                 scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    
                 vizElement.parentNode.insertBefore(scriptElement, vizElement);                
                 </script>
+ <div style="width:80px;height:1000px;margin-left:-140px;margin-top:-1000px;">               
 <div id="metrics2" style='position: relative;margin-left:200px;'>
     <header>
-        <h2>Metrics for 401871</h2>
+        <h2>Metrics401871</h2>
     </header>
                 <div class='tableauPlaceholder' id='viz1588991291491' style='position: relative'>
                     <noscript><a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Me&#47;Metrics-401871&#47;Dashboard2&#47;1_rss.png' style='border: none' /></a></noscript>
@@ -216,7 +225,8 @@
                         <param name='display_count' value='yes' />
                     </object>
                 </div>  
-</div>              
+</div>  
+</div>            
                         <script type='text/javascript'>                    
                         var divElement = document.getElementById('viz1588991291491');                    
                         var vizElement = divElement.getElementsByTagName('object')[0];                    

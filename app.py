@@ -42,9 +42,13 @@ def home():
     return render_template('index.html')
 
 # Route to about page
-@app.route('/about', methods = ['GET'])
-def about():
+@app.route('/aboutp', methods = ['GET'])
+def aboutp():
     return render_template('about_planner.html')
+
+@app.route('/aboutc', methods = ['GET'])
+def aboutc():
+    return render_template('about_commuter.html')
 
 # Route to Data Analysis Page
 @app.route('/data', methods = ['GET','POST'])
@@ -194,7 +198,7 @@ def getFoliumMapPred(Fwy):
 
 if __name__ == '__main__':
     app.secret_key = "config1515"
-    app.run(debug=True, port=20074)
+    app.run(debug=True, port=10060)
 
 
 

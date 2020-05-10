@@ -81,8 +81,8 @@ def def_variables(stationid,Fwy,startdate,intent):
         return selected_date_withmeta_df
 
 def create_plot(stationid,Fwy,startdate):
-    selected_date_withmeta_df=def_variables(stationid,Fwy,startdate,"pie")
-    #selected_date_withmeta_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/SampleData/selected_date_withmeta_df.csv")
+    #selected_date_withmeta_df=def_variables(stationid,Fwy,startdate,"pie")
+    selected_date_withmeta_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/SampleData/selected_date_withmeta_df.csv")
     incident_df=selected_date_withmeta_df.groupby('County.1')['incident'].agg('sum').reset_index()
     x = incident_df['County.1']
     y = incident_df['incident']
@@ -101,13 +101,26 @@ def create_plot(stationid,Fwy,startdate):
     fig.update_traces(hoverinfo='value',textinfo='value')
     fig.update_traces(textposition='inside')
     fig.update_layout(uniformtext_minsize=16, uniformtext_mode='hide')
+    fig.update_layout(
+    autosize=False,
+    width=400,
+    height=400,
+        yaxis=dict(
+            title_text="Y-axis Title",
+            ticktext=["Very long label", "long label", "3", "label"],
+            tickvals=[1, 2, 3, 4],
+            tickmode="array",
+            titlefont=dict(size=30),
+        )
+    )
+    fig.update_yaxes(automargin=True)
     graphJSON = json.dumps(fig, cls=plotly.utils.PlotlyJSONEncoder)
 
     return graphJSON
 
 def create_weather_chart(stationid,Fwy,startdate):
-    selected_date_withmeta_df=def_variables(stationid,Fwy,startdate,"weather")
-    #selected_date_withmeta_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/SampleData/selected_date_withmeta_df.csv")
+    #selected_date_withmeta_df=def_variables(stationid,Fwy,startdate,"weather")
+    selected_date_withmeta_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/SampleData/selected_date_withmeta_df.csv")
     ws=round(selected_date_withmeta_df['hourlywindspeed'].agg('mean'),3)
     vis=round(selected_date_withmeta_df['hourlyvisibility'].agg('mean'),3)
     per=round(selected_date_withmeta_df['hourlyprecipitation'].agg('mean'),3)
@@ -115,15 +128,15 @@ def create_weather_chart(stationid,Fwy,startdate):
     return [ws,vis,per,incidents_sum]
 
 def create_dual_plot(stationid,Fwy,startdate):
-    selected_date_df=def_variables(stationid,Fwy,startdate,"dual")
-    #selected_date_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/SampleData/selected_date_df.csv")
+    #selected_date_df=def_variables(stationid,Fwy,startdate,"dual")
+    selected_date_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/SampleData/selected_date_df.csv")
     if(Fwy!=""):
         selected_date_df=selected_date_df[(selected_date_df['freeway']==int(Fwy))]
     occupancy_df=selected_date_df.groupby('timestamp_')['occupancy'].agg('mean').reset_index()
     speed_df=selected_date_df.groupby('timestamp_')['speed'].agg('mean').reset_index()
     layout = go.Layout(
-        paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='rgba(0,0,0,0)',
+        paper_bgcolor='rgba(0,0,0,100)',
+        plot_bgcolor='rgba(0,0,0,100)',
         title='Speed Vs Occupancy'
     )
     fig=make_subplots(specs=[[{"secondary_y": True}]])
@@ -143,9 +156,29 @@ def create_dual_plot(stationid,Fwy,startdate):
         ),
         secondary_y=False
     )
+    fig.update_layout(
+    autosize=False,
+    width=700,
+    height=150,
+    margin=dict(
+        l=0,
+        r=0,
+        b=0,
+        t=0,
+        pad=0
+    ),
+    paper_bgcolor='rgba(0,0,0,0)',
+    plot_bgcolor='rgba(0,0,0,0)',
+
+    )
         # Set x-axis title
     fig.update_xaxes(title_text="<b>Hour of the Day</b>")
-
+    legend=dict(
+        x=0,
+        y=1.0,
+        bgcolor='rgba(0,0,0, 0)',
+        bordercolor='rgba(0,0,0, 0)'
+    ),
     # Set y-axes titles
     fig.update_yaxes(title_text="<b>Occupancy</b>", secondary_y=False)
     fig.update_yaxes(title_text="<b>Speed</b>", secondary_y=True)
@@ -155,8 +188,8 @@ def create_dual_plot(stationid,Fwy,startdate):
     return graphJSON
 
 def get_folium_map(stationid,Fwy,startdate):
-    selected_date_withmeta_df = def_variables(stationid,Fwy,startdate,"folium")
-    #selected_date_withmeta_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/SampleData/selected_date_withmeta_df.csv")
+    #selected_date_withmeta_df = def_variables(stationid,Fwy,startdate,"folium")
+    selected_date_withmeta_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/SampleData/selected_date_withmeta_df.csv")
     print(selected_date_withmeta_df.head())
     stationsdisplaycount = 20
     #101
@@ -201,7 +234,7 @@ def get_folium_map(stationid,Fwy,startdate):
     ave_lon = sum(p[1] for p in points880)/len(points880)
 
     # Load map centred on average coordinates
-    my_map = folium.Map(location=[ave_lat, ave_lon], zoom_start=9,tiles="Stamen Terrain")
+    my_map = folium.Map(location=[ave_lat, ave_lon], zoom_start=9,tiles="OpenStreetMap")
     if (Fwy=="") & (selected_date_withmeta_df['Fwy'].count() ==1):
         Fwy=selected_date_withmeta_df['Fwy']
     Fwy = str(int(Fwy))
@@ -283,5 +316,5 @@ def get_folium_map(stationid,Fwy,startdate):
                                   &nbsp; I880 &nbsp; <i class="fa fa-line-chart fa-2x" style="color:yellow"></i>
                     </div>
                     '''
-    my_map.get_root().html.add_child(folium.Element(legend_html))
+    #my_map.get_root().html.add_child(folium.Element(legend_html))
     return my_map
