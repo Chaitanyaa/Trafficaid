@@ -33,10 +33,10 @@ def getreal(Fwy):
     onoff680 = [409056,408289]
     list101 = [400868,401472,400119,400661]
     onoff101 = [402883,409308]
-    list880 = [400844,401871,401545,400284,400662]
+    list880 = [401871,401545,400284,400662]
     onoff880 = [403200,403098]
 # stations_list = [400319,407710,403402,400335,420614,404690,400868,400661,400119,401472,400844,401871,401545,400284,400662]
-    Fwy = 101 # Required Listbox
+    # Fwy = 101 # Required Listbox
 # pointA #dummy textbox
 # pointB #dummy textbox
     if(Fwy==101):
@@ -64,7 +64,7 @@ def getreal(Fwy):
         print("counting",df.count())
         dfx=df.set_index(['station','timestamp_']).sort_values(['station','timestamp_'])[colstomod]
         stationid = station
-        modelfile = "../models/"+str(Fwy)+"_"+str(stationid)+"_"+"speed.h5"
+        modelfile = "/home/cmpe295-2/datamonks/dash/models/"+str(Fwy)+"_"+str(stationid)+"_"+"speed.h5"
         #define how many timesteps to look back as input with the variable n_lag.
         n_lag = 3
         #define how many timesteps ahead to predict with the variable n_steps.
@@ -163,28 +163,29 @@ def getreal(Fwy):
 
     # Load map centred on average coordinates
     my_map = folium.Map(location=[ave_lat, ave_lon], zoom_start=9,tiles="Stamen Terrain")
-    if(Fwy==101):
+    if(Fwy=='101'):
         fg101 = folium.FeatureGroup(name="U.S 101",show=True)
         fg280 = folium.FeatureGroup(name="I280",show=False)
         fg680 = folium.FeatureGroup(name="I680",show=False)
         fg880 = folium.FeatureGroup(name="I880",show=False)
-    if(Fwy==280):    
+    if(Fwy=='280'):    
         fg280 = folium.FeatureGroup(name="I280",show=True)
         fg101 = folium.FeatureGroup(name="U.S 101",show=False)
         fg680 = folium.FeatureGroup(name="I680",show=False)
         fg880 = folium.FeatureGroup(name="I880",show=False)
-    if(Fwy==680):
+    if(Fwy=='680'):
         fg680 = folium.FeatureGroup(name="I680",show=True)
         fg101 = folium.FeatureGroup(name="U.S 101",show=False)
         fg280 = folium.FeatureGroup(name="I280",show=False)
         fg880 = folium.FeatureGroup(name="I880",show=False)
-    if(Fwy==880):
+    if(Fwy=='880'):
         fg880 = folium.FeatureGroup(name="I880",show=True)
         fg101 = folium.FeatureGroup(name="U.S 101",show=False)
         fg280 = folium.FeatureGroup(name="I280",show=False)
         fg680 = folium.FeatureGroup(name="I680",show=False)
     ###Changes from here
     for row in withmeta_df.itertuples():
+        
         popuptext = "<b>Station:</b>"+str(row.station)+"<br>"+"<b>City:</b>"+str(row.City)+"<br>"+ \
         "<b>Direction:</b>"+str(row.Dir)+"<br>"+ \
         "<b>Predicted Speed:</b>"+str(row.p_speed)+"<br>"+ \
@@ -211,6 +212,7 @@ def getreal(Fwy):
             fg880.add_child(folium.Marker(location=[row.Latitude, row.Longitude],
                                         popup=popup,
                                         icon=folium.Icon(color='blue', prefix='fa', icon='car')))
+            print(str(row.station))
         
     for row in onoff_withmeta_df.itertuples():
         if row.Fwy == 101:
