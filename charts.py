@@ -234,7 +234,7 @@ def get_folium_map(stationid,Fwy,startdate):
     ave_lon = sum(p[1] for p in points880)/len(points880)
 
     # Load map centred on average coordinates
-    my_map = folium.Map(location=[ave_lat, ave_lon], zoom_start=9,tiles="OpenStreetMap")
+    my_map = folium.Map(location=[ave_lat, ave_lon], zoom_start=8,tiles="OpenStreetMap")
     if (Fwy=="") & (selected_date_withmeta_df['Fwy'].count() ==1):
         Fwy=selected_date_withmeta_df['Fwy']
     Fwy = str(int(Fwy))
