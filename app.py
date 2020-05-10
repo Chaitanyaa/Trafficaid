@@ -44,7 +44,7 @@ def home():
 # Route to about page
 @app.route('/about', methods = ['GET'])
 def about():
-    return render_template('about.html')
+    return render_template('about_planner.html')
 
 # Route to Data Analysis Page
 @app.route('/data', methods = ['GET','POST'])
@@ -56,6 +56,8 @@ def data():
         stationid=request.form.get('station')
         Fwy=request.form.get('fwy')
         startDate=request.form.get('filterDate')
+        if Fwy=="Select a Freeway":
+            Fwy=""
         session['stationid']=stationid
         session['Fwy']=Fwy
         if startDate!="":
@@ -74,7 +76,8 @@ def data():
     if (stationid=="") & (Fwy==""):
         Fwy="280"
     details=[stationid,Fwy,startDate[0:10]]
-    return render_template('dataAnalysis.html',details=details)
+    liststatus=['Select a Freeway','101','280','680','880']
+    return render_template('dataAnalysis.html',details=details,liststatus=liststatus)
 
 @app.route("/simple_chart")
 def chart():
@@ -190,7 +193,8 @@ def getFoliumMapPred(Fwy):
     #return render_template('traffic_prediction.html')
 
 if __name__ == '__main__':
-	app.run(debug=True, port=10060)
+    app.secret_key = "config1515"
+    app.run(debug=True, port=20074)
 
 
 
