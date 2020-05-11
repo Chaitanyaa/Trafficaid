@@ -81,8 +81,8 @@ def def_variables(stationid,Fwy,startdate,intent):
         return selected_date_withmeta_df
 
 def create_plot(stationid,Fwy,startdate):
-    #selected_date_withmeta_df=def_variables(stationid,Fwy,startdate,"pie")
-    selected_date_withmeta_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/SampleData/selected_date_withmeta_df.csv")
+    selected_date_withmeta_df=def_variables(stationid,Fwy,startdate,"pie")
+    # selected_date_withmeta_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/SampleData/selected_date_withmeta_df.csv")
     incident_df=selected_date_withmeta_df.groupby('County.1')['incident'].agg('sum').reset_index()
     x = incident_df['County.1']
     y = incident_df['incident']
@@ -119,8 +119,8 @@ def create_plot(stationid,Fwy,startdate):
     return graphJSON
 
 def create_weather_chart(stationid,Fwy,startdate):
-    #selected_date_withmeta_df=def_variables(stationid,Fwy,startdate,"weather")
-    selected_date_withmeta_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/SampleData/selected_date_withmeta_df.csv")
+    selected_date_withmeta_df=def_variables(stationid,Fwy,startdate,"weather")
+    # selected_date_withmeta_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/SampleData/selected_date_withmeta_df.csv")
     ws=round(selected_date_withmeta_df['hourlywindspeed'].agg('mean'),3)
     vis=round(selected_date_withmeta_df['hourlyvisibility'].agg('mean'),3)
     per=round(selected_date_withmeta_df['hourlyprecipitation'].agg('mean'),3)
@@ -128,8 +128,8 @@ def create_weather_chart(stationid,Fwy,startdate):
     return [ws,vis,per,incidents_sum]
 
 def create_dual_plot(stationid,Fwy,startdate):
-    #selected_date_df=def_variables(stationid,Fwy,startdate,"dual")
-    selected_date_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/SampleData/selected_date_df.csv")
+    selected_date_df=def_variables(stationid,Fwy,startdate,"dual")
+    # selected_date_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/SampleData/selected_date_df.csv")
     if(Fwy!=""):
         selected_date_df=selected_date_df[(selected_date_df['freeway']==int(Fwy))]
     occupancy_df=selected_date_df.groupby('timestamp_')['occupancy'].agg('mean').reset_index()
@@ -188,8 +188,8 @@ def create_dual_plot(stationid,Fwy,startdate):
     return graphJSON
 
 def get_folium_map(stationid,Fwy,startdate):
-    #selected_date_withmeta_df = def_variables(stationid,Fwy,startdate,"folium")
-    selected_date_withmeta_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/SampleData/selected_date_withmeta_df.csv")
+    selected_date_withmeta_df = def_variables(stationid,Fwy,startdate,"folium")
+    # selected_date_withmeta_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/SampleData/selected_date_withmeta_df.csv")
     print(selected_date_withmeta_df.head())
     stationsdisplaycount = 20
     #101

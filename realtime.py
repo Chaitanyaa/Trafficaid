@@ -19,9 +19,11 @@ import utils
 from tensorflow.python.keras.models import load_model
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import StandardScaler
 import pandas as pd
 import numpy as np
 import math
+import pickle
 import statsmodels.api as sm
 from geopy.distance import geodesic
 from sklearn.metrics import mean_squared_error
@@ -35,23 +37,29 @@ def getreal(Fwy):
     onoff101 = [402883,409308]
     list880 = [401871,400284,401545,400662]
     onoff880 = [403200,403098]
+    incident101 = [402380,401516,400868,401859,400661,400645,404532,401652,401277,401472]
+    incident880 = [400284, 400218, 400094, 408138, 400678, 400608, 400983, 400607, 401871, 400515]
 # stations_list = [400319,407710,403402,400335,420614,404690,400868,400661,400119,401472,400844,401871,401545,400284,400662]
     # Fwy = 101 # Required Listbox
 # pointA #dummy textbox
 # pointB #dummy textbox
-    if(Fwy==101):
+    if(Fwy=='101'):
         stations_list = list101
-        onoff = onoff101 
-    elif(Fwy==280):
+        onoff = onoff101
+        incident_list = incident101 
+    elif(Fwy=='280'):
         stations_list = list280
         onoff = onoff280
-    elif(Fwy==680):
+        incident_list = incident280
+    elif(Fwy=='680'):
         stations_list = list680
         onoff = onoff680
+        incident_list = incident680
     else:
         stations_list = list880
         onoff = onoff880
-
+        incident_list = incident880
+    print(stations_list)
     cols = ['station','timestamp_','occupancy','hourlyprecipitation','hourlywindspeed','hourlyvisibility','incident','day_of_week_num','hour_of_day','weekend','speed']
     colstomod = ['occupancy','day_of_week_num','hour_of_day','speed']
     final = pd.DataFrame(columns=cols)
@@ -80,6 +88,7 @@ def getreal(Fwy):
         pred_speeds=np.append(pred_speeds, tinv_yhat[-1])
         final = final.append(df)
 
+
     final['station'] = final['station'].astype('int64')
     final['occupancy'] = final['occupancy'].astype('float')
     final['speed'] = final['speed'].astype('float')
@@ -92,13 +101,21 @@ def getreal(Fwy):
     finals['p_speed'] = pred_speeds
     finals = finals.reset_index(['station'])
     finals.head()
-
+    
     # Should have this part merged stationwise with above cell later
     df_traffic_metadata = pd.read_csv("station_meta_finalv2.csv", sep=',', header=0)
     onoff_withmeta_df = df_traffic_metadata[df_traffic_metadata['ID'].isin(onoff)]
     onoff_withmeta_df.drop_duplicates(subset='ID',inplace=True)
     withmeta_df = finals.merge(df_traffic_metadata,left_on="station",right_on="ID",how="left").round(3)
     withmeta_df.head()
+
+    if(Fwy=='101' or Fwy=='880'):
+        print("incident")
+        incident_pred_df = incident_pred(incident_list,Fwy)
+        incident_pred_df.rename(columns={'Station':'station'},inplace=True)
+        incident_pred_df['station'] = incident_pred_df['station'].astype('int64')
+        withmeta_df['station'] = withmeta_df['station'].astype('int64')
+        withmeta_df = withmeta_df.merge(incident_pred_df,how="left",on="station")
 
     #Time Taken
     sorter = [onoff[0]]+stations_list+[onoff[1]]
@@ -194,12 +211,20 @@ def getreal(Fwy):
         "<b>Avg Windspeed:</b>"+str(row.hourlywindspeed)+"<br>"+ \
         "<b>Avg Visibility:</b>"+str(row.hourlyvisibility)+"<br>"+ \
         "<b>Incident Count:</b>"+str(row.incident)
+
+        if(Fwy=='101' or Fwy=='880'):
+            popuptext = popuptext + "<br><b>Incident Probability:</b>"+str(row.y_pred)
         test = folium.Html(popuptext, script=True)
         popup = folium.Popup(test, max_width=200)
         if row.Fwy == 101:
-            fg101.add_child(folium.Marker(location=[row.Latitude, row.Longitude],
-                                        popup=popup,
-                                        icon=folium.Icon(color='blue', prefix='fa', icon='car')))    
+            if(math.isnan(row.y_pred)):
+                fg101.add_child(folium.Marker(location=[row.Latitude, row.Longitude],
+                                            popup=popup,
+                                            icon=folium.Icon(color='blue', prefix='fa', icon='car')))
+            else:    
+                fg101.add_child(folium.Marker(location=[row.Latitude, row.Longitude],
+                                            popup=popup,
+                                            icon=folium.Icon(color='orange', prefix='fa', icon='exclamation-triangle')))    
         if row.Fwy == 280:
             fg280.add_child(folium.Marker(location=[row.Latitude, row.Longitude],
                                         popup=popup,
@@ -209,9 +234,14 @@ def getreal(Fwy):
                                         popup=popup,
                                         icon=folium.Icon(color='blue', prefix='fa', icon='car')))
         if row.Fwy == 880:
-            fg880.add_child(folium.Marker(location=[row.Latitude, row.Longitude],
-                                        popup=popup,
-                                        icon=folium.Icon(color='blue', prefix='fa', icon='car')))
+            if(math.isnan(row.y_pred)):
+                fg880.add_child(folium.Marker(location=[row.Latitude, row.Longitude],
+                                            popup=popup,
+                                            icon=folium.Icon(color='blue', prefix='fa', icon='car')))
+            else:    
+                fg880.add_child(folium.Marker(location=[row.Latitude, row.Longitude],
+                                            popup=popup,
+                                            icon=folium.Icon(color='orange', prefix='fa', icon='exclamation-triangle')))
             print(str(row.station))
         
     for row in onoff_withmeta_df.itertuples():
@@ -334,3 +364,89 @@ def popdum():
     my_map.save('./static/Map.html')
     # my_map
     return my_map
+
+def incident_pred(incident_list,Fwy):
+    cols = ['station','timestamp_','occupancy','hourlyprecipitation','hourlywindspeed','hourlyvisibility','incident','day_of_week_num','hour_of_day','weekend','speed']
+    #incident_list = [402380,401516,400868,401859,400661,400645,404532,401652,401277,401472]
+    final = pd.DataFrame(columns=cols)
+    for station in incident_list:
+        url = "https://42gd9f43r6.execute-api.us-east-2.amazonaws.com/production/realtime/?station="+str(station)
+        r = requests.get(url = url)
+        data = r.json()
+        df = pd.read_json(data, orient='columns')[cols]    
+        final = final.append(df)
+    ## Rename Columns
+    final = final.rename(columns={'hourlyprecipitation': 'HourlyPrecipitation', 
+                                'hourlyvisibility': 'HourlyVisibility','day_of_week_num': 'day_of_week',
+                                'hour_of_day': 'Hour_of_day'})
+    ## Sort data by timestamp_
+    final = final.sort_values('timestamp_')
+    ##### Standardize the (Numeric)data
+    scaler = StandardScaler() 
+    data = final[['occupancy','speed','HourlyPrecipitation','HourlyVisibility']]
+    data_scaled = scaler.fit_transform(data)
+    features__2020 = pd.DataFrame(data_scaled, columns=['occupancy','speed','HourlyPrecipitation','HourlyVisibility'])
+
+    ## Append Categorical data
+
+    station = final[['station','day_of_week','Hour_of_day']].reset_index(drop = True)
+    df_2020 = features__2020.join(station)
+
+    # df_2020.head()
+
+    ## Get Last 1 hour data
+    df_2020_1_hour = df_2020.tail(120) # last 1 hour data
+
+    df_2020_1_hour = df_2020_1_hour.groupby(['station']).mean()
+
+    df_2020_1_hour = df_2020_1_hour.reset_index()
+
+    station = df_2020[['day_of_week','Hour_of_day']] ## Append data frame for last 1 hour 
+    station_1_hour = station.tail(10)
+    station_1_hour = station_1_hour.reset_index(drop = True) # Reset Index
+    df_2020_1_hour = df_2020_1_hour.join(station_1_hour)
+    df_2020_1_hour
+    ## Append One hour with categorical data
+
+    ## One Hot Encode data
+    ##### One Hot Encoding ######
+
+    # Get one hot encoding of columns B
+    one_hot = pd.get_dummies(df_2020_1_hour['station'])
+    one_hot = one_hot.reset_index(drop = True)
+    # Drop column B as it is now encoded
+    df_2020_1_hour = df_2020_1_hour.drop('station',axis = 1)
+    # Join the encoded df
+    df_2020_1_hour = df_2020_1_hour.join(one_hot)
+
+    # df_2020_1_hour
+    # ################### -----  Load the Model ------ #################
+    
+
+    filename = '/home/cmpe295-2/Chaithanya_Traffic_Severity/Incident-and_Duration_data/model_XG_'+Fwy+'.sav'
+    # load the model from disk
+    loaded_model = pickle.load(open(filename, 'rb'))
+
+    X_test = df_2020_1_hour
+
+    y_test_prob = loaded_model.predict_proba(X_test)[:,1 ] ## Prediction on today's data
+
+    # May prediction dataframe
+    d = {'y_pred': y_test_prob}
+
+    # Creating Data Frame Predictions
+    pred_may    =   pd.DataFrame(data= d, columns=['y_pred'])
+
+    #### Reverse One Hot encoding
+    data1 = pd.get_dummies(pd.get_dummies(X_test[incident_list])).idxmax(1)
+
+    ## Dec_ Station dataframe
+    station_ = pd.DataFrame(data = data1 , columns=['Station'])
+
+    ## Concaating Station with Predictions
+    May_station_pred = pd.concat([station_, pred_may],axis = 1)
+
+    return May_station_pred
+
+
+
