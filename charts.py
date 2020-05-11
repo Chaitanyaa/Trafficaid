@@ -125,7 +125,9 @@ def create_weather_chart(stationid,Fwy,startdate):
     vis=round(selected_date_withmeta_df['hourlyvisibility'].agg('mean'),3)
     per=round(selected_date_withmeta_df['hourlyprecipitation'].agg('mean'),3)
     incidents_sum=selected_date_withmeta_df['incident'].agg('sum')
-    return [ws,vis,per,incidents_sum]
+    occupancy=round(selected_date_withmeta_df['occupancy'].agg('mean'),3)
+    speed=round(selected_date_withmeta_df['speed'].agg('mean'),3)
+    return [ws,vis,per,incidents_sum,occupancy,speed]
 
 def create_dual_plot(stationid,Fwy,startdate):
     selected_date_df=def_variables(stationid,Fwy,startdate,"dual")

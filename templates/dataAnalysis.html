@@ -127,7 +127,7 @@
                                                 alt="" /></span>
                                         <br>
                                         <div class="horizontalgap" style="width:20px"></div>
-                                        <a href="#" class="alert-link">Wind Speed: {{avgwindspeed}}</a>
+                                        <a href="#" class="alert-link">Wind Speed: {{tiledetails[0]}}</a>
                                     </div>
                                 </tr>
                                 <tr>
@@ -138,7 +138,7 @@
                                                 alt="" /></span>
                                         <br>
                                         <div class="horizontalgap" style="width:20px"></div>
-                                        <a href="#" class="alert-link">Precipitation: {{avgprecipitation}}</a>
+                                        <a href="#" class="alert-link">Precipitation: {{tiledetails[1]}}</a>
                                     </div>
                                 </tr>
                                 <tr>
@@ -149,7 +149,7 @@
                                                 alt="" /></span>
                                         <br>
                                         <div class="horizontalgap" style="width:30px"></div>
-                                        <a href="#" class="alert-link">Visibility: {{avgvisibility}}</a>
+                                        <a href="#" class="alert-link">Visibility: {{tiledetails[2]}}</a>
                                     </div>
                                 </tr>
                                 <tr>
@@ -160,7 +160,7 @@
                                                 alt="" /></span>
                                         <br>
                                         <div class="horizontalgap" style="width:30px"></div>
-                                        <a href="#" class="alert-link">Incidents: {{incidentcount}}</a>
+                                        <a href="#" class="alert-link">Incidents: {{tiledetails[3]}}</a>
                                     </div>
                                 </tr>
                             </table>
@@ -170,13 +170,13 @@
                                 <td>
                                     <div class="alert alert-dismissible alert-info" style="width: 100%;">
                                         <span class="image avatar48"><img src="{{url_for('static', filename='images/trafficspeed.png')}}" alt="" /></span>
-                                        <a href="#" class="alert-link">Traffic Speed: {{avgspeed}}</a>
+                                        <a href="#" class="alert-link">Traffic Speed: {{tiledetails[5]}}</a>
                                     </div>
                                     </td>
                                     <td>
                                         <div class="alert alert-dismissible alert-info" style="width: 100%;">
                                             <span class="image avatar48"><img src="{{url_for('static', filename='images/trafficspeed.png')}}" alt="" /></span>
-                                            <a href="#" class="alert-link">Occupancy: {{avgocc}}</a>
+                                            <a href="#" class="alert-link">Occupancy: {{tiledetails[4]}}</a>
                                         </div>
                                         </td>
                             </tr></table>

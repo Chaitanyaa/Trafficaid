@@ -81,7 +81,8 @@ def data():
         Fwy="280"
     details=[stationid,Fwy,startDate[0:10]]
     liststatus=['Select a Freeway','101','280','680','880']
-    return render_template('dataAnalysis.html',details=details,liststatus=liststatus)
+    tile_details=charts.create_weather_chart(stationid,Fwy,startDate)
+    return render_template('dataAnalysis.html',details=details,liststatus=liststatus,tiledetails=tile_details)
 
 @app.route("/simple_chart")
 def chart():
@@ -198,7 +199,7 @@ def getFoliumMapPred(Fwy):
 
 if __name__ == '__main__':
     app.secret_key = "config1515"
-    app.run(debug=True, port=10060)
+    app.run(debug=True, port=20074)
 
 
 
