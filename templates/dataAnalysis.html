@@ -25,7 +25,19 @@
             <h5 class="modal-title" id="exampleModalLabel">Suggestions</h5>
             </div>
             <div class="modal-body">
-            <h4>Some general suggestions to planners based on our data analysis - may be freeway wise</h4>
+            <h4>
+                {% if '280' == details[1] %} 
+                Some general suggestions to planners based on our data analysis - for 280</h4>
+                {% endif %}
+                {% if '880' == details[1] %} 
+                Some general suggestions to planners based on our data analysis - for 880</h4>
+                {% endif %}
+                {% if '680' == details[1] %} 
+                Some general suggestions to planners based on our data analysis - for 680</h4>
+                {% endif %}
+                {% if '101' == details[1] %} 
+                Some general suggestions to planners based on our data analysis - for 101</h4>
+                {% endif %}
             </div>
         </div>
         </div>
@@ -113,7 +125,7 @@
                     
                     <a href="#exampleModal" data-toggle="modal" style="color:black;">Suggestions</a>
                     
-                    &nbsp&nbsp&nbsp&nbsp&nbsp</span>Dashboard for {{details[0]}}{{details[1]}} on {{details[2]}}      
+                    &nbsp&nbsp&nbsp&nbsp&nbsp</span>Dashboard for {{details[0]}} {% if not details[0] %} {{details[1]}} {% endif %}  on {{details[2]}}      
                 </h2>
                 <table style="margin-left: 40px">
                     <tr>

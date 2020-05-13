@@ -42,20 +42,20 @@ def def_variables(stationid,Fwy,startdate,intent):
     twi_df = pd.read_parquet(traffic_weather_incident)
     if(end_obj!=""): 
         twi_df=twi_df[(twi_df['timestamp_']>=np.datetime64(start_obj))&(twi_df['timestamp_']<=np.datetime64(end_obj))]
-        #if((Fwy!="") and (stationid!="")):
-        #    selected_date_df = twi_df[(twi_df['freeway']==Fwy)&(twi_df['station']==stationid)]
-        #elif(Fwy!=""):
-        #    selected_date_df = twi_df[(twi_df['freeway']==Fwy)]
-        if(stationid!=""):
+        if((Fwy!="") and (stationid!="")):
+            selected_date_df = twi_df[(twi_df['freeway']==int(Fwy))&(twi_df['station']==int(stationid))]
+        elif(Fwy!=""):
+            selected_date_df = twi_df[(twi_df['freeway']==int(Fwy))]
+        elif(stationid!=""):
             selected_date_df = twi_df[twi_df['station']==int(stationid)]
         else:
             selected_date_df = twi_df
     else:
         twi_df = twi_df[(twi_df['timestamp_']>=np.datetime64(start_obj))]
-        #if((Fwy!="") and (stationid!="")):
-            #selected_date_df = twi_df[(twi_df['freeway']==Fwy)&(twi_df['station']==stationid)]
-        #elif(Fwy!=""):
-            #selected_date_df = twi_df[(twi_df['freeway']==Fwy)]
+        if((Fwy!="") and (stationid!="")):
+            selected_date_df = twi_df[(twi_df['freeway']==int(Fwy))&(twi_df['station']==int(stationid))]
+        elif(Fwy!=""):
+            selected_date_df = twi_df[(twi_df['freeway']==int(Fwy))]
         if(stationid!=""):
             selected_date_df = twi_df[(twi_df['station']==int(stationid))]
         else:
@@ -70,9 +70,8 @@ def def_variables(stationid,Fwy,startdate,intent):
         grouped_selected_date_df = grouped_selected_date_df.reset_index()
     df_traffic_metadata = pd.read_csv("station_meta_finalv2.csv", sep=',', header=0)
     selected_date_withmeta_df = grouped_selected_date_df.merge(df_traffic_metadata,left_on="station",right_on="ID",how="left").round(3)
-    if((Fwy=="") & (stationid!="") & (selected_date_withmeta_df['Fwy'].count() ==1)):
-        Fwy=selected_date_withmeta_df['Fwy'].values[0]
-    print("DF",selected_date_withmeta_df.head())
+    if((stationid!="") & (selected_date_withmeta_df['Fwy'].count() >=1)):
+        Fwy=selected_date_withmeta_df.head(1)['Fwy'].values[0]
     if(Fwy != ""):
         selected_date_withmeta_df = selected_date_withmeta_df[(selected_date_withmeta_df['Fwy']==int(Fwy))]
     if intent=="dual":
@@ -127,7 +126,8 @@ def create_weather_chart(stationid,Fwy,startdate):
     incidents_sum=selected_date_withmeta_df['incident'].agg('sum')
     occupancy=round(selected_date_withmeta_df['occupancy'].agg('mean'),3)
     speed=round(selected_date_withmeta_df['speed'].agg('mean'),3)
-    return [ws,vis,per,incidents_sum,occupancy,speed]
+    fwy_d=selected_date_withmeta_df.head(1)['Fwy'].values[0]
+    return [ws,vis,per,incidents_sum,occupancy,speed,fwy_d]
 
 def create_dual_plot(stationid,Fwy,startdate):
     selected_date_df=def_variables(stationid,Fwy,startdate,"dual")
@@ -237,23 +237,28 @@ def get_folium_map(stationid,Fwy,startdate):
 
     # Load map centred on average coordinates
     my_map = folium.Map(location=[ave_lat, ave_lon], zoom_start=8,tiles="OpenStreetMap")
-    if (Fwy=="") & (selected_date_withmeta_df['Fwy'].count() ==1):
-        Fwy=selected_date_withmeta_df['Fwy']
+    if (Fwy=="") & (selected_date_withmeta_df['Fwy'].count() >=1):
+        Fwy=selected_date_withmeta_df.head(1)['Fwy'].values[0]
     Fwy = str(int(Fwy))
+    incident_df=selected_date_withmeta_df[selected_date_withmeta_df.station.isin([402380,401516,400868,401859,400661,400645,404532,401652,401277,401472])]
     if(Fwy=="101"): 
-        toggle101 = True 
+        toggle101 = True
+        incident_df=selected_date_withmeta_df[selected_date_withmeta_df.station.isin([402380,401516,400868,401859,400661,400645,404532,401652,401277,401472])]
     else:
         toggle101= False
     if(Fwy=="280"): 
         toggle280 = True 
+        incident_df=selected_date_withmeta_df[selected_date_withmeta_df.station.isin([403402,400414,404617,400319,407710,400676,400560,400338,401845,400499])]
     else: 
         toggle280= False
     if(Fwy=="680"): 
         toggle680 = True 
+        incident_df=selected_date_withmeta_df[selected_date_withmeta_df.station.isin([400303, 402799, 400078, 420614, 413980, 400152, 401724, 400801,401407, 402411])]
     else: 
         toggle680= False
     if(Fwy=="880"): 
         toggle880 = True 
+        incident_df=selected_date_withmeta_df[selected_date_withmeta_df.station.isin([400284, 400218, 400094, 408138, 400678, 400608, 400983, 400607, 401871, 400515])]
     else: 
         toggle880= False
     fg101 = folium.FeatureGroup(name="U.S 101",show=toggle101)
@@ -267,6 +272,33 @@ def get_folium_map(stationid,Fwy,startdate):
         stationsdisplaycount = cnt
     else:
         stationsdisplaycount
+    for row in incident_df.itertuples():
+        popuptext = "<b>Station:</b>"+str(row.station)+"<br>"+"<b>City:</b>"+str(row.City)+"<br>"+ \
+        "<b>Direction:</b>"+str(row.Dir)+"<br>"+ \
+        "<b>Occupancy:</b>"+str(row.occupancy)+"<br>"+ \
+        "<b>Speed:</b>"+str(row.speed)+"<br>"+ \
+        "<b>Precipitation:</b>"+str(row.hourlyprecipitation)+"<br>"+ \
+        "<b>Windspeed:</b>"+str(row.hourlywindspeed)+"<br>"+ \
+        "<b>Visibility:</b>"+str(row.hourlyvisibility)+"<br>"+ \
+        "<b>Incident Count:</b>"+str(row.incident)
+        test = folium.Html(popuptext, script=True)
+        popup = folium.Popup(test, max_width=200)
+        if row.Fwy == 101:
+          fg101.add_child(folium.Marker(location=[row.Latitude, row.Longitude],
+                                         popup=popup,
+                                         icon=folium.Icon(color='orange', prefix='fa', icon='exclamation-triangle')))
+        if row.Fwy == 280:
+          fg280.add_child(folium.Marker(location=[row.Latitude, row.Longitude],
+                                         popup=popup,
+                                         icon=folium.Icon(color='orange', prefix='fa', icon='exclamation-triangle')))
+        if row.Fwy == 680:
+          fg680.add_child(folium.Marker(location=[row.Latitude, row.Longitude],
+                                         popup=popup,
+                                         icon=folium.Icon(color='orange', prefix='fa', icon='exclamation-triangle')))
+        if row.Fwy == 880:
+          fg880.add_child(folium.Marker(location=[row.Latitude, row.Longitude],
+                                         popup=popup,
+                                         icon=folium.Icon(color='red', prefix='fa', icon='exclamation-triangle')))
 
     for row in selected_date_withmeta_df.sample(stationsdisplaycount).itertuples():
         popuptext = "<b>Station:</b>"+str(row.station)+"<br>"+"<b>City:</b>"+str(row.City)+"<br>"+ \
