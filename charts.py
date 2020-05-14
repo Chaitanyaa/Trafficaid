@@ -161,7 +161,7 @@ def create_dual_plot(stationid,Fwy,startdate):
     fig.update_layout(
     autosize=False,
     width=700,
-    height=150,
+    height=250,
     margin=dict(
         l=0,
         r=0,

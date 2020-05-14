@@ -21,15 +21,43 @@ div.horizontalgap {
 }
 </style>
 <body class="is-preload" style="overflow-x: hidden; overflow-y: hidden;margin-left: -10px;" onload="startTime()">
+    
+    <script>
+        $(document).ready(function() {
+            $('select').on('change',function() {
+                var fwy = $("#fwy").val()
+                if(fwy == '880'){
+                    $("#pointa").val('Milpitas')
+                    $("#pointb").val('Oakland')
+                    $("#dist").text('35.4 miles')
+                }
+                else if(fwy=='101'){
+                    $("#pointa").val('San Jose')
+                    $("#pointb").val('Sausalito')
+                    $("#dist").text('53.5 miles')
+                }
+                else{
+                    alert("Select either freeway U.S. 101 or I880 only");
+                }
+            });
+        });
+        </script>
     <!-- Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Real-Time</h5>
+          <h5 class="modal-title" style="color:#E13A44" id="exampleModalLabel">Real-Time - Prediction @Current hour</h5>
           </div>
         <div class="modal-body">
-          <h4>Something about realtime --- midnight to till now, 1 hr intervals, input upto last hr, predict for next hour</h4>
+          <h5 style="color:#E13A44"><b>Speed Prediction:</b> We take real time 1 hr intervals of traffic,weather and incident data from current day midnight upto last hour as input to our model
+        </h5>
+        <h5><a href="https://42gd9f43r6.execute-api.us-east-2.amazonaws.com/production/realtime/?station=400001" target="_blank">API</a></h5>
+        </br>
+        <h5 style="color:#E13A44"><b>Incident Probability Prediction:</b> Incident Probability Prediction: We take real time 5 min intervals of traffic,weather and incident data from current day for last hour as input to our model.
+        </h5>
+        <h5><a href="https://n8nucy5gbh.execute-api.us-east-2.amazonaws.com/production/realtime/?station=400001" target="_blank">API</a></h5>
+        </div>
         </div>
       </div>
     </div>
@@ -45,8 +73,8 @@ div.horizontalgap {
             <h1 id="title" style="margin-left: -20px;">Traffic Aid</h1>
             <p>for planners and commuters</p>
         </div>
-        <div style="margin-right: 100px;"><span class="icon solid fa-home" style="margin-right: 50px;"></span><h4>BAY AREA</h4></div>
-        <br/><br/><br/>
+        <div style="margin-right: 100px;"><span class="icon solid fa-home" style="margin-right: 50px;"></span><h4 style="color:#E13A44">BAY AREA</h4></div>
+        <br/><br/>
         <!-- Nav -->
         <nav id="nav">
             <ul>
@@ -56,14 +84,27 @@ div.horizontalgap {
                         <div class="form-group">
                                     <select class="form-control" name="fwy" id="fwy" value="101">
                                         <option value="" disabled selected>Select a Freeway</option>
+                                        {% if fwy=='101' %}
+                                        <option selected="selected" value="101">U.S 101</option>
+                                        <option value="680">I680</option>
+                                        <option value="280">I280</option>
+                                        <option value="880">I880</option>
+                                        {% elif fwy=='880' %}
+                                        <option value="101">U.S 101</option>
+                                        <option value="680">I680</option>
+                                        <option value="280">I280</option>
+                                        <option selected="selected" value="880">I880</option>
+                                        {% else %}
                                         <option value="101">U.S 101</option>
                                         <option value="680">I680</option>
                                         <option value="280">I280</option>
                                         <option value="880">I880</option>
+                                        {% endif %}
                                     </select><br/>
                                 </div>
-                                    <input type="text" class="form-control" name="pointa" id="Point A" aria-describedby="Point A" placeholder="Point A"><br/>
-                                    <input type="text" class="form-control" name="pointb" id="Point B" aria-describedby="Point B" placeholder="Point B"><br/>
+                                    <input type="text" class="form-control" name="pointa" id="pointa" aria-describedby="Point A" placeholder="Point A"><br/>
+                                    <input type="text" class="form-control" name="pointb" id="pointb" aria-describedby="Point B" placeholder="Point B"><br/>
+                                    
                 </li>
             </ul>
         </nav>
@@ -71,13 +112,14 @@ div.horizontalgap {
         <div id="div" style="margin-right:70px">
             <button id="submit" class="btn btn-warning">Submit</button>
         </div>
-        <br><br>
-        <div style="margin-right:50px"><p style="color:#ffffff"><h4>Travel Time</h4> {{timetaklow}} to {{timetakhigh}} mins</p>
+        <br>
+        <div style="margin-right:30px"><p style="color:#E13A44"><h4 style="color:#E13A44">Predicted Travel Time</h4> {{timetak}} mins</p>
         </div>
         </form>
 
     </div>
-
+    <div style="margin-right:30px;"><h5 style="color:#E13A44;">Calculated Distance</h5><span  id="dist">55 miles</span>
+    </div>
     <div class="bottom">
     </div>
 </div>
@@ -100,7 +142,7 @@ div.horizontalgap {
     <h5><a href="#exampleModal" data-toggle="modal" style="color:black;margin-left: 50px;">More Details</a></h5>
     <section id="commuter" class="four" style="margin-top: -100px;">
         <!-- Nav -->
-        <h2><div id="txt" style="margin-left: -650px;margin-top: 50px;"></div></h2>
+        <h2 style="color:#E13A44"><div id="txt" style="margin-left: -650px;margin-top: 50px;"></div></h2>
         <table style="margin-left: 70px;margin-top: -90px;">
             <tr>
                 <td>

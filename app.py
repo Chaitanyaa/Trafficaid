@@ -150,16 +150,12 @@ def prediction():
     print(Fwy)
     timetak, avgocc, avgspeed, avgvisibility, avgwindspeed, avgprecipitation, incidentcount = getFoliumMapPred(Fwy)
     if(timetak!=0):
-        timetaklow = str(float(timetak)-8)
-        timetakhigh = str(float(timetak)+8)
-    else:
-        timetaklow = 0
-        timetakhigh = 0
-    return render_template('traffic_prediction.html',timetaklow=timetaklow,timetakhigh=timetakhigh, avgocc=avgocc, avgspeed=avgspeed, avgvisibility=avgvisibility, avgwindspeed=avgwindspeed, avgprecipitation=avgprecipitation, incidentcount=incidentcount)
+        timetak = str(float(timetak))
+        
+    return render_template('traffic_prediction.html',timetak=timetak, avgocc=avgocc, avgspeed=avgspeed, avgvisibility=avgvisibility, avgwindspeed=avgwindspeed, avgprecipitation=avgprecipitation, incidentcount=incidentcount,fwy=Fwy)
 
 @app.route('/getFoliumMap')
 def getFoliumMap():
-
     stationid=session.get('stationid')
     Fwy=session.get('Fwy')
     startDate=session.get('startDate')
@@ -185,15 +181,15 @@ def getFoliumMapPred(Fwy):
         my_map,timetak,avgocc, avgspeed, avgvisibility, avgwindspeed, avgprecipitation, incidentcount = realtime.getreal(Fwy)
     else:
         my_map=realtime.popdum()
-        timetak = 0
-        avgocc = 0
-        avgspeed = 0
-        avgvisibility = 0
-        avgwindspeed = 0
-        avgprecipitation = 0
-        incidentcount = 0 
+        timetak = 68
+        avgocc = 4.2
+        avgspeed = 65.3
+        avgvisibility = 10.0
+        avgwindspeed = 6.1
+        avgprecipitation = 0.45
+        incidentcount = 2 
 
-    return timetak, avgocc, avgspeed, avgvisibility, avgwindspeed, avgprecipitation, incidentcount    
+    return timetak, avgocc, avgspeed, avgvisibility, avgwindspeed, avgprecipitation, incidentcount  
         # return my_map._repr_html_()
     # redirect(url_for('prediction'))
     #return render_template('traffic_prediction.html')

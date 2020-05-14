@@ -33,10 +33,10 @@ def getreal(Fwy):
     onoff280 = [405428,410590]
     list680 = [400335,420614,404690]
     onoff680 = [409056,408289]
-    list101 = [400868,401472,400119,400661]
-    onoff101 = [402883,409308]
+    list101 = [400868,401472,400119,400661,402366,402364]
+    onoff101 = [409308,402880]
     list880 = [401871,400284,401545,400662]
-    onoff880 = [403200,403098]
+    onoff880 = [403098,403200]
     incident101 = [402380,401516,400868,401859,400661,400645,404532,401652,401277,401472]
     incident880 = [400284, 400218, 400094, 408138, 400678, 400608, 400983, 400607, 401871, 400515]
 # stations_list = [400319,407710,403402,400335,420614,404690,400868,400661,400119,401472,400844,401871,401545,400284,400662]
@@ -59,7 +59,7 @@ def getreal(Fwy):
         stations_list = list880
         onoff = onoff880
         incident_list = incident880
-    print(stations_list)
+    # print(stations_list)
     cols = ['station','timestamp_','occupancy','hourlyprecipitation','hourlywindspeed','hourlyvisibility','incident','day_of_week_num','hour_of_day','weekend','speed']
     colstomod = ['occupancy','day_of_week_num','hour_of_day','speed']
     final = pd.DataFrame(columns=cols)
@@ -69,10 +69,11 @@ def getreal(Fwy):
         r = requests.get(url = url)
         data = r.json()
         df = pd.read_json(data, orient='columns')[cols]
-        print("counting",df.count())
+        # print("counting",df.count())
         dfx=df.set_index(['station','timestamp_']).sort_values(['station','timestamp_'])[colstomod]
         stationid = station
         modelfile = "/home/cmpe295-2/datamonks/dash/models/"+str(Fwy)+"_"+str(stationid)+"_"+"speed.h5"
+        print(modelfile)
         #define how many timesteps to look back as input with the variable n_lag.
         n_lag = 3
         #define how many timesteps ahead to predict with the variable n_steps.
@@ -100,24 +101,31 @@ def getreal(Fwy):
     finals = final_data.groupby(final_data.index).agg({'speed':'mean','incident':'sum','occupancy':'mean','hourlyprecipitation':'mean','hourlywindspeed':'mean','hourlyvisibility':'mean'})
     finals['p_speed'] = pred_speeds
     finals = finals.reset_index(['station'])
-    finals.head()
+    # finals.head()
     
     # Should have this part merged stationwise with above cell later
     df_traffic_metadata = pd.read_csv("station_meta_finalv2.csv", sep=',', header=0)
     onoff_withmeta_df = df_traffic_metadata[df_traffic_metadata['ID'].isin(onoff)]
     onoff_withmeta_df.drop_duplicates(subset='ID',inplace=True)
     withmeta_df = finals.merge(df_traffic_metadata,left_on="station",right_on="ID",how="left").round(3)
-    withmeta_df.head()
+    # withmeta_df.head()
 
     if(Fwy=='101' or Fwy=='880'):
         print("incident")
         incident_pred_df = incident_pred(incident_list,Fwy)
+        # incident_pred['y_pred'] = incident_pred['y_pred'].round(3)
         incident_pred_df.rename(columns={'Station':'station'},inplace=True)
         incident_pred_df['station'] = incident_pred_df['station'].astype('int64')
         withmeta_df['station'] = withmeta_df['station'].astype('int64')
         withmeta_df = withmeta_df.merge(incident_pred_df,how="left",on="station")
 
     #Time Taken
+    if Fwy=='101':
+        dist = [9.2,3.9,7.0,7.3,20.5,4.6,1]
+    else:
+        dist = [12.7,7.0,5.7,3.7,6.3]
+    print("Distance:")
+    print(dist)    
     sorter = [onoff[0]]+stations_list+[onoff[1]]
     sorterIndex = dict(zip(sorter,range(len(sorter))))
     a = df_traffic_metadata[df_traffic_metadata['ID'].isin(onoff+stations_list)]
@@ -128,17 +136,19 @@ def getreal(Fwy):
     a['speed'] = [pred_speeds[0]]+list(pred_speeds)+[pred_speeds[-1]]
     tim = np.array([])
     for i in range(1,len(a)):
-        p1 = (a.iloc[i-1][2],a.iloc[i-1][3])
-        p2 = (a.iloc[i][2],a.iloc[i][3]) 
-        dist = geodesic(p1, p2).miles
+        # p1 = (a.iloc[i-1][2],a.iloc[i-1][3])
+        # p2 = (a.iloc[i][2],a.iloc[i][3]) 
+        # dist = geodesic(p1, p2).miles
         spd = (a.iloc[i-1][4]+a.iloc[i][4])/2
-        t = dist/spd
+        t = dist[i-1]/spd
         tim = np.append(tim, t)
-    timetak = sum(tim*60).round(2)
+    timetak = round(sum(tim*60),1)
     print(timetak)
     #Map
 
-    #101    
+    #101
+    # pointa = withmeta_df[withmeta_df['station'].isin([onoff[0]])]['City'].values[0]
+    # pointb = withmeta_df[withmeta_df['station'].isin([onoff[1]])]['City'].values[0]    
     gpx_file101 = open('101.gpx', 'r') 
     gpx101 = gpxpy.parse(gpx_file101)
     points101 = []
@@ -201,6 +211,8 @@ def getreal(Fwy):
         fg280 = folium.FeatureGroup(name="I280",show=False)
         fg680 = folium.FeatureGroup(name="I680",show=False)
     ###Changes from here
+    pointa = 'None'
+    pointb = 'None'
     for row in withmeta_df.itertuples():
         
         popuptext = "<b>Station:</b>"+str(row.station)+"<br>"+"<b>City:</b>"+str(row.City)+"<br>"+ \
@@ -212,7 +224,7 @@ def getreal(Fwy):
         "<b>Avg Visibility:</b>"+str(row.hourlyvisibility)+"<br>"+ \
         "<b>Incident Count:</b>"+str(row.incident)
 
-        if(Fwy=='101' or Fwy=='880'):
+        if((Fwy=='101' or Fwy=='880') and ((math.isnan(row.y_pred)==False))):
             popuptext = popuptext + "<br><b>Incident Probability:</b>"+str(row.y_pred)
         test = folium.Html(popuptext, script=True)
         popup = folium.Popup(test, max_width=200)
@@ -242,21 +254,25 @@ def getreal(Fwy):
                 fg880.add_child(folium.Marker(location=[row.Latitude, row.Longitude],
                                             popup=popup,
                                             icon=folium.Icon(color='orange', prefix='fa', icon='exclamation-triangle')))
-            print(str(row.station))
-        
+            # print(str(row.station))
+    l = []    
     for row in onoff_withmeta_df.itertuples():
         if row.Fwy == 101:
             fg101.add_child(folium.Marker(location=[row.Latitude, row.Longitude],
-                                    icon=folium.Icon(color='red', prefix='fa', icon='circle')))    
+                                    icon=folium.Icon(color='red', prefix='fa', icon='circle')))  
+            l.append(row.City)  
         if row.Fwy == 280:
             fg280.add_child(folium.Marker(location=[row.Latitude, row.Longitude],
                                         icon=folium.Icon(color='red', prefix='fa', icon='circle')))
+            l.append(row.City)
         if row.Fwy == 680:
             fg680.add_child(folium.Marker(location=[row.Latitude, row.Longitude],
                                         icon=folium.Icon(color='red', prefix='fa', icon='circle')))
+            l.append(row.City)
         if row.Fwy == 880:
             fg880.add_child(folium.Marker(location=[row.Latitude, row.Longitude],
                                         icon=folium.Icon(color='red', prefix='fa', icon='circle')))
+            l.append(row.City)
         
     folium.PolyLine(points101, color="black", weight=2.5, opacity=1).add_to(fg101)
     folium.PolyLine(points280, color="purple", weight=2.5, opacity=1).add_to(fg280)
@@ -268,7 +284,7 @@ def getreal(Fwy):
     my_map.add_child(fg880)
 
     folium.LayerControl().add_to(my_map)
-
+    
     legend_html =   "<div style=\"position: fixed; \
                                 bottom: 10px; left: 30px; width: 220px; height: 70px;\
                                 border:2px solid grey; z-index:9999; font-size:14px; + \
@@ -292,6 +308,9 @@ def getreal(Fwy):
     return my_map, timetak, avgocc, avgspeed, avgvisibility, avgwindspeed, avgprecipitation, incidentcount
 
 def popdum():
+
+    df_traffic_metadata = pd.read_csv("station_meta_finalv2.csv", sep=',', header=0)
+    
     #101    
     gpx_file101 = open('101.gpx', 'r') 
     gpx101 = gpxpy.parse(gpx_file101)
@@ -334,14 +353,52 @@ def popdum():
 
     # Load map centred on average coordinates
     my_map = folium.Map(location=[ave_lat, ave_lon], zoom_start=9,tiles="Stamen Terrain")
-    fg101 = folium.FeatureGroup(name="U.S 101",show=False)
-    fg280 = folium.FeatureGroup(name="I280",show=False)
-    fg680 = folium.FeatureGroup(name="I680",show=False)
-    fg880 = folium.FeatureGroup(name="I880",show=False)
+    fg101 = folium.FeatureGroup(name="U.S 101",show=True)
+    fg280 = folium.FeatureGroup(name="I280",show=True)
+    fg680 = folium.FeatureGroup(name="I680",show=True)
+    fg880 = folium.FeatureGroup(name="I880",show=True)
         
     folium.PolyLine(points101, color="red", weight=2.5, opacity=1).add_to(fg101)
     folium.PolyLine(points280, color="blue", weight=2.5, opacity=1).add_to(fg280)
     folium.PolyLine(points680, color="green", weight=2.5, opacity=1).add_to(fg680)
+    folium.PolyLine(points880, color="yellow", weight=2.5, opacity=1).add_to(fg880)
+    my_map.add_child(fg101)
+    my_map.add_child(fg280)
+    my_map.add_child(fg680)
+    my_map.add_child(fg880)
+
+    for row in df_traffic_metadata.sample(20).itertuples():
+        
+        popuptext = "<b>Station:</b>"+str(row.ID)+"<br>"+"<b>City:</b>"+str(row.City)+"<br>"+ \
+        "<b>Direction:</b>"+str(row.Dir)+"<br>"
+        # "<b>Avg Occupancy:</b>"+str(row.occupancy)+"<br>"
+        # "<b>Avg Precipitation:</b>"+str(row.hourlyprecipitation)+"<br>"+ \
+        # "<b>Avg Windspeed:</b>"+str(row.hourlywindspeed)+"<br>"+ \
+        # "<b>Avg Visibility:</b>"+str(row.hourlyvisibility)+"<br>"+ \
+        # "<b>Incident Count:</b>"+str(row.incident)
+        test = folium.Html(popuptext, script=True)
+        popup = folium.Popup(test, max_width=200)
+        if row.Fwy == 101:    
+            fg101.add_child(folium.Marker(location=[row.Latitude, row.Longitude],
+                                        popup=popup,
+                                        icon=folium.Icon(color='orange', prefix='fa', icon='exclamation-triangle')))    
+        if row.Fwy == 280:
+            fg280.add_child(folium.Marker(location=[row.Latitude, row.Longitude],
+                                        popup=popup,
+                                        icon=folium.Icon(color='blue', prefix='fa', icon='car')))
+        if row.Fwy == 680:
+            fg680.add_child(folium.Marker(location=[row.Latitude, row.Longitude],
+                                        popup=popup,
+                                        icon=folium.Icon(color='blue', prefix='fa', icon='car')))
+        if row.Fwy == 880:
+            fg880.add_child(folium.Marker(location=[row.Latitude, row.Longitude],
+                                        popup=popup,
+                                        icon=folium.Icon(color='blue', prefix='fa', icon='car')))
+            # print(str(row.station))
+        
+    folium.PolyLine(points101, color="red", weight=2.5, opacity=1).add_to(fg101)
+    folium.PolyLine(points280, color="green", weight=2.5, opacity=1).add_to(fg280)
+    folium.PolyLine(points680, color="blue", weight=2.5, opacity=1).add_to(fg680)
     folium.PolyLine(points880, color="yellow", weight=2.5, opacity=1).add_to(fg880)
     my_map.add_child(fg101)
     my_map.add_child(fg280)
@@ -436,6 +493,7 @@ def incident_pred(incident_list,Fwy):
 
     # Creating Data Frame Predictions
     pred_may    =   pd.DataFrame(data= d, columns=['y_pred'])
+    pred_may.y_pred = pred_may.y_pred.round(3)
 
     #### Reverse One Hot encoding
     data1 = pd.get_dummies(pd.get_dummies(X_test[incident_list])).idxmax(1)

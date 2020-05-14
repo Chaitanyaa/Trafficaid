@@ -22,10 +22,10 @@
         <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Suggestions</h5>
+            <h5 class="modal-title" id="exampleModalLabel" style="color:#E13A44">Suggestions</h5>
             </div>
             <div class="modal-body">
-            <h4>
+            <h4 style="color:#E13A44">
                 {% if '280' == details[1] %} 
                 Some general suggestions to planners based on our data analysis - for 280</h4>
                 {% endif %}
@@ -62,7 +62,7 @@
                         <div style="margin-right:128px">
                             <br /><br /><br /><br />
                             <form action="/data" method="post">
-                                <div class="form-group" style="margin-left:20px">
+                                <div class="form-group" style="margin-left:15px">
                                     <select name="fwy" class="form-control" id="fwy">
                                         {% for each in liststatus %}
 
@@ -73,7 +73,7 @@
                                     </select>
 
                                 </div>
-                                <div class="form-group" style="margin-left:20px">
+                                <div class="form-group" style="margin-left:14px">
                                     <input type="text" class="form-control" id="station" name="station"
                                         aria-describedby="station" placeholder="stationid" value='{{details[0]}}'><br />
                                 </div>
@@ -120,12 +120,12 @@
         <!-- Raw Data Analysis -->
         <section id="dataAnalysis" class="three">
             <div class="container">
-                <h2 style="margin-top:-15px;">
+                <h2 style="margin-top:-15px;color:#E13A44">
                     <br />
                     
                     <a href="#exampleModal" data-toggle="modal" style="color:black;">Suggestions</a>
                     
-                    &nbsp&nbsp&nbsp&nbsp&nbsp</span>Dashboard for {{details[0]}} {% if not details[0] %} {{details[1]}} {% endif %}  on {{details[2]}}      
+                    &nbsp&nbsp&nbsp&nbsp&nbsp</span style=>Dashboard for {{details[0]}} {% if not details[0] %} {{details[1]}} {% endif %}  on {{details[2]}}      
                 </h2>
                 <table style="margin-left: 40px">
                     <tr>
@@ -139,7 +139,7 @@
                                                 alt="" /></span>
                                         <br>
                                         <div class="horizontalgap" style="width:20px"></div>
-                                        <a href="#" class="alert-link">Wind Speed: {{tiledetails[0]}}</a>
+                                        <a href="#" class="alert-link" style="margin-left:-10px">Wind Speed: {{tiledetails[0]}}</a>
                                     </div>
                                 </tr>
                                 <tr>
@@ -178,21 +178,7 @@
                             </table>
                         </td>
                         <td>
-                            <table style="margin-top: -50px;width: 80%;height: 50%;"><tr>
-                                <td>
-                                    <div class="alert alert-dismissible alert-info" style="width: 100%;">
-                                        <span class="image avatar48"><img src="{{url_for('static', filename='images/trafficspeed.png')}}" alt="" /></span>
-                                        <a href="#" class="alert-link">Traffic Speed: {{tiledetails[5]}}</a>
-                                    </div>
-                                    </td>
-                                    <td>
-                                        <div class="alert alert-dismissible alert-info" style="width: 100%;">
-                                            <span class="image avatar48"><img src="{{url_for('static', filename='images/trafficspeed.png')}}" alt="" /></span>
-                                            <a href="#" class="alert-link">Occupancy: {{tiledetails[4]}}</a>
-                                        </div>
-                                        </td>
-                            </tr></table>
-                            <table style="margin-top: -180px;">
+                            <table style="margin-top: -130px;">
                                 <tr>
                                     <table><tr>
                                     <td>
@@ -206,7 +192,7 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <iframe src="/dual_chart" style="height:200px; width:720px;margin-top: -120px; overflow-x: hidden;"></iframe>
+                                        <iframe src="/dual_chart" style="height:280px; width:720px;margin-top: -120px; overflow-x: hidden;"></iframe>
                                     </td>
                                 </tr>
                                 
