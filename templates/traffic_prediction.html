@@ -37,9 +37,19 @@ div.horizontalgap {
                     $("#dist").text('53.5 miles')
                 }
                 else{
-                    alert("Select either freeway U.S. 101 or I880 only");
+                    // alert("Select either freeway U.S. 101 or I880 only");
+                    $("#fwy").val(fwy)
                 }
             });
+            if($('#fwy').val()){
+                var fwy = $("#fwy").val()
+                if(fwy == '880'){
+                    $('#fwy').val(880).trigger('change');
+                }
+                if(fwy == '101'){
+                    $('#fwy').val(101).trigger('change');
+                }
+            }
         });
         </script>
     <!-- Modal -->
