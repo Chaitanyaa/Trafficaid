@@ -62,11 +62,11 @@ div.horizontalgap {
         <div class="modal-body">
           <h5 style="color:#E13A44"><b>Speed Prediction:</b> We take real time 1 hr intervals of traffic,weather and incident data from current day midnight upto last hour as input to our model
         </h5>
-        <h5><a href="https://42gd9f43r6.execute-api.us-east-2.amazonaws.com/production/realtime/?station=400001" target="_blank">API</a></h5>
+        <h5><a href="https://n8nucy5gbh.execute-api.us-east-2.amazonaws.com/production/realtime/?station=400001" target="_blank">API</a></h5>
         </br>
         <h5 style="color:#E13A44"><b>Incident Probability Prediction:</b> Incident Probability Prediction: We take real time 5 min intervals of traffic,weather and incident data from current day for last hour as input to our model.
         </h5>
-        <h5><a href="https://n8nucy5gbh.execute-api.us-east-2.amazonaws.com/production/realtime/?station=400001" target="_blank">API</a></h5>
+        <h5><a href="https://42gd9f43r6.execute-api.us-east-2.amazonaws.com/production/realtime/?station=400001" target="_blank">API</a></h5>
         </div>
         </div>
       </div>
@@ -164,7 +164,7 @@ div.horizontalgap {
                     <span class="image avatar48"><img src="{{url_for('static', filename='images/windspeed.png')}}" alt="" /></span>
                     <br>
                     <div class="horizontalgap" style="width:20px"></div>
-                    <a href="#" class="alert-link">Wind Speed: {{avgwindspeed}}</a>
+                    <a href="#" class="alert-link">Wind Speed: {{avgwindspeed}} mph</a>
                 </div>
                 </tr>
                 <tr>
@@ -173,7 +173,7 @@ div.horizontalgap {
                     <span class="image avatar48"><img src="{{url_for('static', filename='images/precipitation.png')}}" alt="" /></span>
                     <br>
                     <div class="horizontalgap" style="width:20px"></div>
-                    <a href="#" class="alert-link">Precipitation: {{avgprecipitation}}</a>
+                    <a href="#" class="alert-link">Precipitation: {{avgprecipitation}} in</a>
                     </div>
                 </tr>
                 <tr>
@@ -182,7 +182,7 @@ div.horizontalgap {
                      <span class="image avatar48"><img src="{{url_for('static', filename='images/visibility.png')}}" alt="" /></span>
                      <br>
                      <div class="horizontalgap" style="width:30px"></div>
-                     <a href="#" class="alert-link">Visibility: {{avgvisibility}}</a>
+                     <a href="#" class="alert-link">Visibility: {{avgvisibility}} mi</a>
                     </div>
                 </tr>
                 <tr>
@@ -205,8 +205,8 @@ div.horizontalgap {
                                 <div class="horizontalgap" style="width:120px"></div>
                                 <span class="image avatar48"><img src="{{url_for('static', filename='images/trafficspeed.png')}}" alt="" /></span>
                                 <br>
-                                <div class="horizontalgap" style="width:90px"></div>
-                                <a href="#" class="alert-link">Traffic Speed: {{avgspeed}}</a>
+                                <div class="horizontalgap" style="width:75px"></div>
+                                <a href="#" class="alert-link">Traffic Speed: {{avgspeed}} mph</a>
                             </div>
                             </td>
                             <td>
@@ -214,8 +214,8 @@ div.horizontalgap {
                                 <div class="horizontalgap" style="width:120px"></div>
                                 <span class="image avatar48"><img src="{{url_for('static', filename='images/occupancy.png')}}" alt="" /></span>
                                 <br>
-                                <div class="horizontalgap" style="width:90px"></div>
-                                <a href="#" class="alert-link">Occupancy: {{avgocc}}</a>
+                                <div class="horizontalgap" style="width:75px"></div>
+                                <a href="#" class="alert-link">Occupancy: {{avgocc}} </a>
                             </div>
                             </td>
                         </tr><tr><td colspan="2">

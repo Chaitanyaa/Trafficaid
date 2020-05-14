@@ -27,16 +27,40 @@
             <div class="modal-body">
             <h4 style="color:#E13A44">
                 {% if '280' == details[1] %} 
-                Some general suggestions to planners based on our data analysis - for 280</h4>
+                Suggestions to planners based on our data analysis for Freeway 280</h4>
+                <ul>
+                    <li>
+                        Increase more data collection stations
+                    </li>
+                </ul>
                 {% endif %}
                 {% if '880' == details[1] %} 
-                Some general suggestions to planners based on our data analysis - for 880</h4>
+                Suggestions to planners based on our data analysis - for 880</h4>
+                <ul>
+                    <li>
+                        To reduce high occupancy, Increase more lanes
+                    </li>
+                    <li>
+                        Increase more Fast track or car pooling lanes
+                    </li>
+                    <li>
+                        Public Transport Infra can be enhanced to avoid congestion
+                    </li>
+                </ul>
                 {% endif %}
                 {% if '680' == details[1] %} 
-                Some general suggestions to planners based on our data analysis - for 680</h4>
+                Suggestions to planners based on our data analysis - for 680</h4>
                 {% endif %}
                 {% if '101' == details[1] %} 
-                Some general suggestions to planners based on our data analysis - for 101</h4>
+                Suggestions to planners based on our data analysis - for 101</h4>
+                <ul>
+                    <li>
+                        Decrease Speed limit in Incident prone zones
+                    </li>
+                    <li>
+                        Modify Fasttrack lane hours from 9-5 to peak hours alone
+                    </li>
+                </ul>
                 {% endif %}
             </div>
         </div>
@@ -127,45 +151,45 @@
                     
                     &nbsp&nbsp&nbsp&nbsp&nbsp</span style=>Dashboard for {{details[0]}} {% if not details[0] %} {{details[1]}} {% endif %}  on {{details[2]}}      
                 </h2>
-                <table style="margin-left: 40px">
+                <table>
                     <tr>
                         <td>
-                            <table>
+                            <table style="margin-left:-20px">
                                 <tr>
-                                    <div class="alert alert-dismissible alert-info">
+                                    <div style="width: 250px;margin-left:-20px" class="alert alert-dismissible alert-info">
                                         <div class="horizontalgap" style="width:70px"></div>
                                         <span class="image avatar48"><img
                                                 src="{{url_for('static', filename='images/windspeed.png')}}"
                                                 alt="" /></span>
                                         <br>
                                         <div class="horizontalgap" style="width:20px"></div>
-                                        <a href="#" class="alert-link" style="margin-left:-10px">Wind Speed: {{tiledetails[0]}}</a>
+                                        <a href="#" class="alert-link" style="margin-left:-10px">Wind Speed: {{tiledetails[0]}} mph</a>
                                     </div>
                                 </tr>
                                 <tr>
-                                    <div class="alert alert-dismissible alert-info">
+                                    <div style="width: 250px;margin-left:-20px" class="alert alert-dismissible alert-info">
                                         <div class="horizontalgap" style="width:70px"></div>
                                         <span class="image avatar48"><img
                                                 src="{{url_for('static', filename='images/precipitation.png')}}"
                                                 alt="" /></span>
                                         <br>
                                         <div class="horizontalgap" style="width:20px"></div>
-                                        <a href="#" class="alert-link">Precipitation: {{tiledetails[1]}}</a>
+                                        <a href="#" class="alert-link">Precipitation: {{tiledetails[2]}} in</a>
                                     </div>
                                 </tr>
                                 <tr>
-                                    <div class="alert alert-dismissible alert-info">
+                                    <div style="width: 250px;margin-left:-20px" class="alert alert-dismissible alert-info">
                                         <div class="horizontalgap" style="width:70px"></div>
                                         <span class="image avatar48"><img
                                                 src="{{url_for('static', filename='images/visibility.png')}}"
                                                 alt="" /></span>
                                         <br>
                                         <div class="horizontalgap" style="width:30px"></div>
-                                        <a href="#" class="alert-link">Visibility: {{tiledetails[2]}}</a>
+                                        <a href="#" class="alert-link">Visibility: {{tiledetails[1]}} mi</a>
                                     </div>
                                 </tr>
                                 <tr>
-                                    <div class="alert alert-dismissible alert-info">
+                                    <div style="width: 250px;margin-left:-20px" class="alert alert-dismissible alert-info">
                                         <div class="horizontalgap" style="width:70px"></div>
                                         <span class="image avatar48"><img
                                                 src="{{url_for('static', filename='images/incident.png')}}"

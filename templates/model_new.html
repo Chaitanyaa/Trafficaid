@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Traffic</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main.css') }}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main1.css') }}">
+    <noscript><link rel="stylesheet" href="assets/css/noscript.css" /></noscript>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/bootstrap.min.css') }}">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+</head>
+<body class="is-preload" style="overflow-x: hidden;">
+<!-- Header -->
+<div id="header">
+
+    <div class="top">
+
+        <!-- Logo -->
+        <div id="logo">
+            <span class="image avatar48"><img src="{{url_for('static', filename='images/trafficaid.png')}}" alt="" /></span>
+            <h1 id="title">Traffic Aid</h1>
+            <p>for planners and commuters</p>
+        </div>
+<br/>
+        <br/>
+        <br/>
+        <!-- Nav -->
+        <nav id="nav">
+            <ul>
+                <li>
+                    <div style="margin-right:128px">
+                        <br/><br/>
+                        <form id="filterForm" action="javascript:return false;">
+                            <div class="form-group" style="margin-left:20px">
+                                <input type="text" class="form-control" id="station" aria-describedby="station" placeholder="stationid" value="400001"><br/>
+                            </div>
+                            <div class="form-group" style="margin-left:20px">
+                                <select name="fwy" class="form-control" id="selval">
+                                    <option value="" disabled selected>Select a Value</option>
+                                    <option>Prediction</option>
+                                    <option>Metrics</option>
+                                </select>
+                            </div>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+
+
+        <!--Refresh-->
+        <script>
+        $(document).ready(function() {
+            $("#submitbtn").click(function() {
+                var station = $("#station").val()
+                var sel_val = $("#selval").val()
+                
+            });
+        });
+        </script>
+        <br/>
+        <div id="div" style="margin-right:40px">
+            <button id="submitbtn" class="btn btn-warning">Submit</button>
+        </div>
+    </form>
+    </div>
+
+    <div class="bottom">
+    </div>
+</div>
+<!-- Main -->
+<div id="main">
+    <nav id="nav3" class="nav1" style="width: 100%;">
+        <ul>
+            <li><a href="/" style="color:#ffffff">Home</a></li>
+            <li><a href="/aboutp" style="color:#ffffff">About</a></li>
+            <li><a href="/data" style="color:#ffffff">Raw Data Analysis</a></li>
+            <li><a href="/model" class="active" style="color:#ffffff">Model Evaluation</a></li>
+            <!-- <li><a href="/prediction" style="color:#ffffff">Traffic Prediction</a></li> -->
+        </ul>
+    </nav>
+
+    <!-- Model -->
+    <section id="model" class="two">
+        <iframe src="/getFoliumMap" style="height:350px; width:340px;"></iframe>
+    </section>
+</div>
+
+<!-- Footer -->
+<div id="footer">
+
+</div>
+
+<!--Scripts-->
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.scrolly.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/jquery.scrollex.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/browser.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/breakpoints.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/util.js') }}"></script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
+
+</body>
+</html>
