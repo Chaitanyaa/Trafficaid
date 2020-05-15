@@ -80,7 +80,11 @@ def def_variables(stationid,Fwy,startdate,intent):
         return selected_date_withmeta_df
 
 def create_plot(stationid,Fwy,startdate):
-    selected_date_withmeta_df=def_variables(stationid,Fwy,startdate,"pie")
+    selected_date_withmeta_df = pd.read_csv("/home/cmpe295-2/datamonks/Sindu/DefaultData/selected_date_withmeta_df.csv")
+    if (stationid=="") & (Fwy=="880") & (startdate=="2019-02-01 00:00:00"):
+        selected_date_withmeta_df = pd.read_csv("/home/cmpe295-2/datamonks/Sindu/DefaultData/selected_date_withmeta_df.csv")
+    else:
+        selected_date_withmeta_df=def_variables(stationid,Fwy,startdate,"pie")
     # selected_date_withmeta_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/SampleData/selected_date_withmeta_df.csv")
     incident_df=selected_date_withmeta_df.groupby('County.1')['incident'].agg('sum').reset_index()
     x = incident_df['County.1']
@@ -118,20 +122,26 @@ def create_plot(stationid,Fwy,startdate):
     return graphJSON
 
 def create_weather_chart(stationid,Fwy,startdate):
-    selected_date_withmeta_df=def_variables(stationid,Fwy,startdate,"weather")
-    # selected_date_withmeta_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/SampleData/selected_date_withmeta_df.csv")
-    ws=round(selected_date_withmeta_df['hourlywindspeed'].agg('mean'),3)
-    vis=round(selected_date_withmeta_df['hourlyvisibility'].agg('mean'),3)
-    per=round(selected_date_withmeta_df['hourlyprecipitation'].agg('mean'),3)
+    selected_date_withmeta_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/DefaultData/selected_date_withmeta_df.csv")
+    if (stationid=="") & (Fwy=="880") & (startdate=="2019-02-01 00:00:00"):
+        selected_date_withmeta_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/DefaultData/selected_date_withmeta_df.csv")
+    else:
+        selected_date_withmeta_df=def_variables(stationid,Fwy,startdate,"weather")
+    ws=round(selected_date_withmeta_df['hourlywindspeed'].agg('mean'),2)
+    vis=round(selected_date_withmeta_df['hourlyvisibility'].agg('mean'),2)
+    per=round(selected_date_withmeta_df['hourlyprecipitation'].agg('mean'),2)
     incidents_sum=selected_date_withmeta_df['incident'].agg('sum')
-    occupancy=round(selected_date_withmeta_df['occupancy'].agg('mean'),3)
-    speed=round(selected_date_withmeta_df['speed'].agg('mean'),3)
+    occupancy=round(selected_date_withmeta_df['occupancy'].agg('mean'),2)
+    speed=round(selected_date_withmeta_df['speed'].agg('mean'),2)
     fwy_d=selected_date_withmeta_df.head(1)['Fwy'].values[0]
     return [ws,vis,per,incidents_sum,occupancy,speed,fwy_d]
 
 def create_dual_plot(stationid,Fwy,startdate):
-    selected_date_df=def_variables(stationid,Fwy,startdate,"dual")
-    # selected_date_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/SampleData/selected_date_df.csv")
+    selected_date_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/DefaultData/selected_date_df.csv")
+    if (stationid=="") & (Fwy=="880") & (startdate=="2019-02-01 00:00:00"):
+        selected_date_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/DefaultData/selected_date_df.csv")
+    else:
+        selected_date_df=def_variables(stationid,Fwy,startdate,"dual")
     if(Fwy!=""):
         selected_date_df=selected_date_df[(selected_date_df['freeway']==int(Fwy))]
     occupancy_df=selected_date_df.groupby('timestamp_')['occupancy'].agg('mean').reset_index()
@@ -190,8 +200,11 @@ def create_dual_plot(stationid,Fwy,startdate):
     return graphJSON
 
 def get_folium_map(stationid,Fwy,startdate):
-    selected_date_withmeta_df = def_variables(stationid,Fwy,startdate,"folium")
-    # selected_date_withmeta_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/SampleData/selected_date_withmeta_df.csv")
+    selected_date_withmeta_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/DefaultData/selected_date_withmeta_df.csv")
+    if (stationid=="") & (Fwy=="880") & (startdate=="2019-02-01 00:00:00"):
+        selected_date_withmeta_df=pd.read_csv("/home/cmpe295-2/datamonks/Sindu/DefaultData/selected_date_withmeta_df.csv")
+    else:
+        selected_date_withmeta_df = def_variables(stationid,Fwy,startdate,"folium")
     print(selected_date_withmeta_df.head())
     stationsdisplaycount = 20
     #101
@@ -298,7 +311,7 @@ def get_folium_map(stationid,Fwy,startdate):
         if row.Fwy == 880:
           fg880.add_child(folium.Marker(location=[row.Latitude, row.Longitude],
                                          popup=popup,
-                                         icon=folium.Icon(color='red', prefix='fa', icon='exclamation-triangle')))
+                                         icon=folium.Icon(color='orange', prefix='fa', icon='exclamation-triangle')))
 
     for row in selected_date_withmeta_df.sample(stationsdisplaycount).itertuples():
         popuptext = "<b>Station:</b>"+str(row.station)+"<br>"+"<b>City:</b>"+str(row.City)+"<br>"+ \
@@ -326,7 +339,7 @@ def get_folium_map(stationid,Fwy,startdate):
         if row.Fwy == 880:
           fg880.add_child(folium.Marker(location=[row.Latitude, row.Longitude],
                                          popup=popup,
-                                         icon=folium.Icon(color='orange', prefix='fa', icon='circle')))
+                                         icon=folium.Icon(color='darkblue', prefix='fa', icon='circle')))
 
     folium.PolyLine(points101, color="red", weight=2.5, opacity=1).add_to(fg101)
     folium.PolyLine(points280, color="blue", weight=2.5, opacity=1).add_to(fg280)

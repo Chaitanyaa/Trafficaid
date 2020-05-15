@@ -31,33 +31,24 @@
                 <li>
                     <div style="margin-right:128px">
                         <br/><br/>
-                        <form id="filterForm" action="javascript:return false;">
+                        <form id="filterForm" action="/model_new" method="post">
                             <div class="form-group" style="margin-left:20px">
-                                <input type="text" class="form-control" id="station" aria-describedby="station" placeholder="stationid" value="400001"><br/>
+                                <input type="text" class="form-control" id="station" name="station" aria-describedby="station" placeholder="stationid" value='{{stationid}}'><br/>
                             </div>
                             <div class="form-group" style="margin-left:20px">
                                 <select name="fwy" class="form-control" id="selval">
-                                    <option value="" disabled selected>Select a Value</option>
-                                    <option>Prediction</option>
-                                    <option>Metrics</option>
+                                    {% for each in liststatus %}
+
+                                        <option value="{{each}}" {% if each == selval %} selected {% endif %}>
+                                            {{each}}</option>
+
+                                        {% endfor %}
                                 </select>
                             </div>
                     </div>
                 </li>
             </ul>
         </nav>
-
-
-        <!--Refresh-->
-        <script>
-        $(document).ready(function() {
-            $("#submitbtn").click(function() {
-                var station = $("#station").val()
-                var sel_val = $("#selval").val()
-                
-            });
-        });
-        </script>
         <br/>
         <div id="div" style="margin-right:40px">
             <button id="submitbtn" class="btn btn-warning">Submit</button>
@@ -81,8 +72,23 @@
     </nav>
 
     <!-- Model -->
-    <section id="model" class="two">
-        <iframe src="/getFoliumMap" style="height:350px; width:340px;"></iframe>
+    <section id="station1" class="two">
+        <br/>
+        <div>
+            {% if form_value=="station1" %} 
+            <iframe src="/station1"  style="width:900px;height:900px;"></iframe>
+            {% endif %}
+            {% if form_value=="metrics1" %} 
+            <iframe src="/metrics1"  style="width:900px;height:900px;"></iframe>
+            {% endif %}
+            {% if form_value=="station2" %} 
+            <iframe src="/station2"  style="width:900px;height:900px;"></iframe>
+            {% endif %}
+            {% if form_value=="metrics2" %} 
+            <iframe src="/metrics2"  style="width:900px;height:900px;"></iframe>
+            {% endif %}
+        </div>
+        </section>
     </section>
 </div>
 

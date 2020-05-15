@@ -118,10 +118,17 @@
         </div>
         <script>
             $(document).ready(function () {
-                $('#loadDiv').fadeOut(20000);
+                if( $("#fwy").val()=="880")
+                {
+                    $('#loadDiv').fadeOut(7000);
+                }
+                else{
+                   $('#loadDiv').fadeOut(20000);
+                }
+                
                 //$("#loadDiv").show()
                 $("#submit").click(function () {
-                    $('#loadDiv').fadeOut(20000);
+                   // $('#loadDiv').fadeOut(20000);
                     //$("#loadDiv").show()
                 });
             });
@@ -136,7 +143,7 @@
                 <li><a href="/" style="color:#ffffff">Home</a></li>
                 <li><a href="/aboutp" style="color:#ffffff">About</a></li>
                 <li><a href="/data" class="active" style="color:#ffffff">Raw Data Analysis</a></li>
-                <li><a href="/model" style="color:#ffffff">Model Evaluation</a></li>
+                <li><a href="/model_new" style="color:#ffffff">Model Evaluation</a></li>
                 <!-- <li><a href="/prediction" style="color:#ffffff">Traffic Prediction</a></li> -->
             </ul>
         </nav>
@@ -156,7 +163,7 @@
                         <td>
                             <table style="margin-left:-20px">
                                 <tr>
-                                    <div style="width: 250px;margin-left:-20px" class="alert alert-dismissible alert-info">
+                                    <div style="width: 260px;margin-left:-20px" class="alert alert-dismissible alert-info">
                                         <div class="horizontalgap" style="width:70px"></div>
                                         <span class="image avatar48"><img
                                                 src="{{url_for('static', filename='images/windspeed.png')}}"
@@ -167,7 +174,7 @@
                                     </div>
                                 </tr>
                                 <tr>
-                                    <div style="width: 250px;margin-left:-20px" class="alert alert-dismissible alert-info">
+                                    <div style="width: 260px;margin-left:-20px" class="alert alert-dismissible alert-info">
                                         <div class="horizontalgap" style="width:70px"></div>
                                         <span class="image avatar48"><img
                                                 src="{{url_for('static', filename='images/precipitation.png')}}"
@@ -178,7 +185,7 @@
                                     </div>
                                 </tr>
                                 <tr>
-                                    <div style="width: 250px;margin-left:-20px" class="alert alert-dismissible alert-info">
+                                    <div style="width: 260px;margin-left:-20px" class="alert alert-dismissible alert-info">
                                         <div class="horizontalgap" style="width:70px"></div>
                                         <span class="image avatar48"><img
                                                 src="{{url_for('static', filename='images/visibility.png')}}"
@@ -189,7 +196,7 @@
                                     </div>
                                 </tr>
                                 <tr>
-                                    <div style="width: 250px;margin-left:-20px" class="alert alert-dismissible alert-info">
+                                    <div style="width: 260px;margin-left:-20px" class="alert alert-dismissible alert-info">
                                         <div class="horizontalgap" style="width:70px"></div>
                                         <span class="image avatar48"><img
                                                 src="{{url_for('static', filename='images/incident.png')}}"

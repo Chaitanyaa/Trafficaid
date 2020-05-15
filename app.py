@@ -76,9 +76,9 @@ def data():
     if not Fwy:
         Fwy=""
     if not startDate:
-        startDate='2018-01-01 00:00:00'
+        startDate='2019-02-01 00:00:00'
     if (stationid=="") & (Fwy==""):
-        Fwy="280"
+        Fwy="880"
     details=[stationid,Fwy,startDate[0:10]]
     liststatus=['Select a Freeway','101','280','680','880']
     tile_details=charts.create_weather_chart(stationid,Fwy,startDate)
@@ -95,9 +95,9 @@ def chart():
     if not Fwy:
         Fwy=""
     if not startDate:
-        startDate='2018-01-01 00:00:00'
+        startDate='2019-02-01 00:00:00'
     if (stationid=="") & (Fwy==""):
-        Fwy="280"
+        Fwy="880"
     bar = charts.create_plot(stationid,Fwy,startDate)
     return render_template('chart.html', plot=bar)
 
@@ -111,9 +111,9 @@ def dual_chart():
     if not Fwy:
         Fwy=""
     if not startDate:
-        startDate='2018-01-01 00:00:00'
+        startDate='2019-02-01 00:00:00'
     if (stationid=="") & (Fwy==""):
-        Fwy="280"
+        Fwy="880"
     bar = charts.create_dual_plot(stationid,Fwy,startDate)
     return render_template('dual_chart.html', plot=bar)
 
@@ -127,16 +127,49 @@ def weather_chart():
     if not Fwy:
         Fwy=""
     if not startDate:
-        startDate='2018-01-01 00:00:00'
+        startDate='2019-02-01 00:00:00'
     if (stationid=="") & (Fwy==""):
-        Fwy="280"
+        Fwy="880"
     weather_details=charts.create_weather_chart(stationid,Fwy,startDate)
     return render_template('weather_chart.html',weather_details=weather_details)
 
-# Route to model page
-@app.route('/model', methods = ['GET'])
-def model():
-    return render_template('model.html')
+# Route to model new page
+@app.route('/model_new', methods = ['GET','POST'])
+def model_new():
+    if request.method == 'GET':
+        stationid="400001"
+        selval="Prediction"
+    else:
+        stationid=request.form.get('station')
+        selval=request.form.get('fwy')
+    print(stationid,selval)
+    if (stationid=="400001") & (selval=="Prediction"):
+        form_value="station1"
+    elif (stationid=="400001") & (selval=="Metrics"):
+        form_value="metrics1"
+    elif (stationid=="401871") & (selval=="Metrics"):
+        form_value="metrics2"
+    else:
+        form_value="station2"
+    liststatus=["Prediction","Metrics"]
+    return render_template('model_new.html',form_value=form_value,stationid=stationid,selval=selval,liststatus=liststatus)
+
+@app.route('/station1', methods = ['GET'])
+def station1():
+    return render_template('station1.html')
+
+@app.route('/metrics1', methods = ['GET'])
+def metrics1():
+    return render_template('metrics1.html')
+
+
+@app.route('/station2', methods = ['GET'])
+def station2():
+    return render_template('station2.html')
+
+@app.route('/metrics2', methods = ['GET'])
+def metrics2():
+    return render_template('metrics2.html')
 
 # Route to model page
 @app.route('/model', methods = ['GET'])
@@ -169,9 +202,9 @@ def getFoliumMap():
     if not Fwy:
         Fwy=""
     if not startDate:
-        startDate='2018-01-01 00:00:00'
+        startDate='2019-02-01 00:00:00'
     if (stationid=="") & (Fwy==""):
-        Fwy="280"
+        Fwy="880"
     print("Session",stationid,Fwy,startDate)
     my_map=charts.get_folium_map(stationid,Fwy,startDate)
     #my_map.save('index.html')
