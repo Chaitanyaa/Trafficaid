@@ -137,8 +137,13 @@ def weather_chart():
 @app.route('/model', methods = ['GET'])
 def model():
     return render_template('model.html')
-# Route to prediction page
 
+# Route to model page
+@app.route('/model', methods = ['GET'])
+def model():
+    return render_template('model.html')
+
+# Route to prediction page
 @app.route('/prediction', methods = ['GET','POST'])
 def prediction(): 
     #session['Freeway'] = request.form.get("fwy")
