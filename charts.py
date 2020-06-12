@@ -34,8 +34,8 @@ def def_variables(stationid,Fwy,startdate,intent):
     #stationid = "" #Can be blank (Optional) textbox
 
     #Note: All blanks take empty strings
-    AWS_ACCESS_KEY = "AKIA4JL5A5WR3V5RODMP"
-    AWS_SECRET_KEY = "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"
+    AWS_ACCESS_KEY = "*******"
+    AWS_SECRET_KEY = "**********"
     s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY,aws_secret_access_key=AWS_SECRET_KEY)
     traffic_weather_incident = io.BytesIO(s3.get_object(Bucket='pemstwi', Key=year+'/twi')['Body'].read())
     # twi_df = pd.read_csv('C:/Sindu_SJSU/Sem04/trafficaid-master/twi_df_500.csv')
