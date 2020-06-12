@@ -7,9 +7,9 @@
 ![alt text](https://github.com/Chaitanyaa/trafficaid/blob/master/images/about.png)
 
 ## Commuter UI   
-![alt text](https://github.com/Chaitanyaa/trafficaid/blob/master/images/commuter.jpg)
+![alt text](https://github.com/Chaitanyaa/trafficaid/blob/master/images/commuter.png)
 
 ## Planner UI   
-![alt text](https://github.com/Chaitanyaa/trafficaid/blob/master/images/planner.jpg)
+![alt text](https://github.com/Chaitanyaa/trafficaid/blob/master/images/planner.png)
 
 
